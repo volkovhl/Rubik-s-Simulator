@@ -79,3 +79,18 @@
 1. Склонируйте репозиторий:
 ```bash
 git clone https://github.com/volkovhl/Rubik-s-Simulator.git
+
+📄 Лицензия
+MIT License © 2026 volkovhl
+
+⭐ Поддержка
+Если проект вам понравился — поставьте звездочку на GitHub! Это поможет другим найти этот симулятор.
+
+https://img.shields.io/github/stars/volkovhl/Rubik-s-Simulator?style=social
+
+🔗 Ссылки
+Демо
+
+GitHub
+
+YouTube (скоро)
