@@ -76,10 +76,13 @@
 
 ## 🚀 Быстрый старт
 
-Склонируйте репозиторий и откройте `index.html`:
+Склонируйте репозиторий и откройте `index.html` в браузере:
 
 ```bash
 git clone https://github.com/volkovhl/Rubik-s-Simulator.git
+```
+
+---
 
 ## 📄 Лицензия
 
