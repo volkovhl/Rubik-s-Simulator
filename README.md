@@ -1,6 +1,6 @@
 # 🧩 Rubik's Simulator
 
-<img width="64" height="64" alt="Rubik's Cube" src="https://img.icons8.com/color/64/rubik.png" />
+🧩
 
 [![Live Demo](https://img.shields.io/badge/demo-live-brightgreen?style=for-the-badge)](https://volkovhl.github.io/Rubik-s-Simulator/)
 [![GitHub stars](https://img.shields.io/github/stars/volkovhl/Rubik-s-Simulator?style=for-the-badge)](https://github.com/volkovhl/Rubik-s-Simulator/stargazers)
