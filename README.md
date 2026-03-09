@@ -74,23 +74,34 @@
 
 ---
 
-## 🚀 Установка и запуск
+## 🚀 Быстрый старт
 
-1. Склонируйте репозиторий:
+Склонируйте репозиторий и откройте `index.html`:
+
 ```bash
 git clone https://github.com/volkovhl/Rubik-s-Simulator.git
 
-📄 Лицензия
-MIT License © 2026 volkovhl
+## 📄 Лицензия
 
-⭐ Поддержка
-Если проект вам понравился — поставьте звездочку на GitHub! Это поможет другим найти этот симулятор.
+Проект распространяется под лицензией **MIT**.  
+© 2026 [volkovhl](https://github.com/volkovhl)
 
-https://img.shields.io/github/stars/volkovhl/Rubik-s-Simulator?style=social
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-🔗 Ссылки
-Демо
+---
 
-GitHub
+## ⭐ Поддержка
 
-YouTube (скоро)
+Если проект вам понравился — **поставьте звездочку на GitHub**! Это поможет другим найти этот симулятор.
+
+[![GitHub stars](https://img.shields.io/github/stars/volkovhl/Rubik-s-Simulator?style=social)](https://github.com/volkovhl/Rubik-s-Simulator/stargazers)
+
+---
+
+## 🔗 Ссылки
+
+| Ресурс | Ссылка |
+|--------|--------|
+| 🌐 **Демо** | [volkovhl.github.io/Rubik-s-Simulator](https://volkovhl.github.io/Rubik-s-Simulator) |
+| 🐙 **GitHub** | [github.com/volkovhl/Rubik-s-Simulator](https://github.com/volkovhl/Rubik-s-Simulator) |
+| 🎥 **YouTube** | *(скоро будет)* |
