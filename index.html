@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+
+    <!-- SEO метаданные -->
+<meta name="description"
+    content="Rubik's Simulator — интерактивный 3D кубик Рубика с алгоритмами сборки. Вращайте грани, меняйте ориентацию, изучайте пиф-пафы прямо в браузере.">
+<meta name="keywords"
+    content="Rubik's Simulator, rubik's cube, кубик рубика, 3d симулятор, алгоритмы сборки, пиф-паф, speedcube, спидкубинг, интерактивный">
+<meta name="author" content="volkovhl">
+<meta property="og:title" content="Rubik's Simulator — 3D кубик Рубика с алгоритмами">
+<meta property="og:description"
+    content="Интерактивный 3D симулятор кубика Рубика. Меняйте ориентацию, выполняйте алгоритмы, тренируйтесь на смартфоне.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://github.com/volkovhl/Rubiks-Simulator">
+<meta property="og:image" content="https://via.placeholder.com/512x512/4caf50/ffffff?text=Rubik's+Simulator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Rubik's Simulator">
+<meta name="twitter:description" content="3D симулятор кубика Рубика с алгоритмами.">
+
+<!-- YouTube ссылка (добавьте позже, когда создадите канал) -->
+<!-- <link rel="me" href="https://youtube.com/@ваш_канал"> -->
+
+    <title>3D Кубик Рубика — интерактивный симулятор</title>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        .face {
+            border: 2px solid black;
+            border-radius: 10px;
+            box-sizing: border-box;
+        }
+
+        /* Основной контейнер управления */
+.control-panel {
+    position: fixed;
+    bottom: 510px; /* для ПК */
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    z-index: 1000;
+    pointer-events: none;
+    padding: 0 10px;
+}
+
+
+
+        /* Верхняя строка: ориентация (компактная полоска) */
+        .orientation-bar {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 30px;
+            padding: 6px 18px;
+            display: flex;
+            gap: 20px;
+            border: 1px solid #ffaa00;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .orientation-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .orientation-label {
+            color: #ffaa00;
+            text-transform: uppercase;
+            font-size: 11px;
+        }
+
+        .orientation-value {
+            color: white;
+        }
+
+        /* Средний ряд: кнопки выбора сторон (круглые) + крестовина вместе */
+        .action-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            pointer-events: none;
+        }
+
+        /* Блок выбора сторон (ПЕРЕД) */
+        .side-selector-compact {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border-radius: 40px;
+            padding: 6px 12px;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            pointer-events: auto;
+        }
+
+        .side-selector-compact .label {
+            color: #ccc;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-right: 4px;
+        }
+
+        .side-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .side-btn.active {
+            transform: scale(1.15);
+            border-color: #ffaa00;
+            box-shadow: 0 0 15px #ffaa00;
+        }
+
+        .side-btn.green {
+            background: #4CAF50;
+        }
+
+        .side-btn.red {
+            background: #ff4444;
+        }
+
+        .side-btn.blue {
+            background: #2196F3;
+        }
+
+        .side-btn.orange {
+            background: #ff8800;
+        }
+
+        .side-btn.white {
+            background: #ffffff;
+        }
+
+        .side-btn.yellow {
+            background: #ffdd00;
+        }
+
+        /* Крестовина управления (обновленный дизайн, под стать круглым кнопкам) */
+        .control-cross-compact {
+            display: grid;
+            grid-template-columns: 40px 40px 40px;
+            grid-template-rows: 40px 40px;
+            gap: 4px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            pointer-events: auto;
+        }
+
+        .cross-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            background: rgba(156, 39, 176, 0.9);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .cross-btn:hover {
+            transform: scale(1.1);
+            background: rgba(156, 39, 176, 1);
+        }
+
+        .cross-btn:active {
+            transform: scale(0.95);
+        }
+
+        .cross-btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .cross-btn.up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .cross-btn.left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .cross-btn.down {
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .cross-btn.right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+
+        /* Нижний ряд: кнопки алгоритмов */
+.algo-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    padding: 5px 0;
+    pointer-events: auto;
+    width: 100%;
+    max-width: 500px;
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+}
+
+        .algo-buttons button {
+            padding: 8px 8px;
+            border-radius: 30px;
+            border: 1px solid white;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 1px 1px 1px black;
+            min-width: 55px;
+            line-height: 1.2;
+            flex: 0 1 auto;
+            background: #333;
+            border-color: #666;
+        }
+
+        .algo-buttons button:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .algo-buttons button:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-1 {
+            background: #ffffff;
+            color: #333;
+            text-shadow: none;
+            border-color: #999;
+        }
+
+        .btn-2 {
+            background: #ff8800;
+        }
+
+        .btn-3 {
+            background: #4CAF50;
+        }
+
+        .btn-4 {
+            background: #ffdd00;
+            color: #333;
+            text-shadow: none;
+            border-color: #ffaa00;
+        }
+
+        .btn-5 {
+            background: #ff4444;
+        }
+
+        .btn-6 {
+            background: #2E7D32;
+        }
+
+        .btn-7 {
+            background: #2196F3;
+        }
+
+        /* Скрываем старые элементы */
+        .selector-container,
+        .control-cross,
+        .current-orientation,
+        .notification {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Новая объединенная панель управления -->
+    <div class="control-panel">
+        <!-- Ориентация (ПЕРЕД / ВЕРХ) одной строкой -->
+        <div class="orientation-bar">
+            <div class="orientation-item">
+                <span class="orientation-label">ПЕРЕД:</span>
+                <span class="orientation-value" id="currentFrontCompact">Зеленая (F)</span>
+            </div>
+            <div class="orientation-item">
+                <span class="orientation-label">ВЕРХ:</span>
+                <span class="orientation-value" id="currentTopCompact">Белая (U)</span>
+            </div>
+        </div>
+
+        <!-- Ряд: выбор сторон (круглые) + крестовина -->
+        <div class="action-row">
+            <!-- Боковые стороны (ПЕРЕД) -->
+            <div class="side-selector-compact">
+                <span class="label">ПЕРЕД</span>
+                <div class="side-btn green active" id="btnF" title="Зеленая (F)"></div>
+                <div class="side-btn red" id="btnR" title="Красная (R)"></div>
+                <div class="side-btn blue" id="btnB" title="Синяя (B)"></div>
+                <div class="side-btn orange" id="btnL" title="Оранжевая (L)"></div>
+            </div>
+            <!-- Боковые стороны (ВЕРХ) - отдельно, но можно объединить, но для компактности оставим так -->
+            <div class="side-selector-compact">
+                <span class="label">ВЕРХ</span>
+                <div class="side-btn white active" id="btnU" title="Белая (U)"></div>
+                <div class="side-btn yellow" id="btnD" title="Желтая (D)"></div>
+            </div>
+            <!-- Крестовина -->
+            <div class="control-cross-compact">
+                <button class="cross-btn up" id="rotateUp" title="Повернуть вверх">↑</button>
+                <button class="cross-btn left" id="rotateLeft" title="Повернуть влево">←</button>
+                <button class="cross-btn down" id="rotateDown" title="Повернуть вниз">↓</button>
+                <button class="cross-btn right" id="rotateRight" title="Повернуть вправо">→</button>
+            </div>
+        </div>
+
+        <!-- Кнопки алгоритмов -->
+        <div class="algo-buttons" id="algoButtons"></div>
+    </div>
+
+    <script>
+        // Константы
+        const ANIMATION = {
+            DELAY_BETWEEN_MOVES: 300,
+            ROTATION_DURATION: 300,
+            SLERP_DURATION: 500,
+            PERSPECTIVE: '460px'
+        };
+
+        // ---------- oz.js ----------
+        var OZ = {
+            $: function (x) { return typeof (x) == "string" ? document.getElementById(x) : x; },
+            select: function (x) { return document.querySelectorAll(x); },
+            opera: !!window.opera,
+            ie: !!document.attachEvent && !window.opera,
+            gecko: !!document.getAnonymousElementByAttribute,
+            webkit: !!navigator.userAgent.match(/webkit/i),
+            khtml: !!navigator.userAgent.match(/khtml/i) || !!navigator.userAgent.match(/konqueror/i),
+            Event: {
+                _id: 0,
+                _byName: {},
+                _byID: {},
+                add: function (elm, event, cb) {
+                    var id = OZ.Event._id++;
+                    var element = OZ.$(elm);
+                    var fnc = (element && element.attachEvent ? function () { return cb.apply(element, arguments); } : cb);
+                    var rec = [element, event, fnc];
+                    var parts = event.split(" ");
+                    while (parts.length) {
+                        var e = parts.pop();
+                        if (element) {
+                            if (element.addEventListener) {
+                                element.addEventListener(e, fnc, false);
+                            } else if (element.attachEvent) {
+                                element.attachEvent("on" + e, fnc);
+                            }
+                        }
+                        if (!(e in OZ.Event._byName)) { OZ.Event._byName[e] = {}; }
+                        OZ.Event._byName[e][id] = rec;
+                    }
+                    OZ.Event._byID[id] = rec;
+                    return id;
+                },
+                remove: function (id) {
+                    var rec = OZ.Event._byID[id];
+                    if (!rec) { return; }
+                    var elm = rec[0];
+                    var parts = rec[1].split(" ");
+                    while (parts.length) {
+                        var e = parts.pop();
+                        if (elm) {
+                            if (elm.removeEventListener) {
+                                elm.removeEventListener(e, rec[2], false);
+                            } else if (elm.detachEvent) {
+                                elm.detachEvent("on" + e, rec[2]);
+                            }
+                        }
+                        delete OZ.Event._byName[e][id];
+                    }
+                    delete OZ.Event._byID[id];
+                },
+                stop: function (e) { e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; },
+                prevent: function (e) { e.preventDefault ? e.preventDefault() : e.returnValue = false; },
+                target: function (e) { return e.target || e.srcElement; }
+            },
+            Class: function () {
+                var c = function () {
+                    var init = arguments.callee.prototype.init;
+                    if (init) { init.apply(this, arguments); }
+                };
+                c.implement = function (parent) {
+                    for (var p in parent.prototype) { this.prototype[p] = parent.prototype[p]; }
+                    return this;
+                };
+                c.extend = function (parent) {
+                    var tmp = function () { };
+                    tmp.prototype = parent.prototype;
+                    this.prototype = new tmp();
+                    this.prototype.constructor = this;
+                    return this;
+                };
+                c.prototype.bind = function (fnc) { return fnc.bind(this); };
+                c.prototype.dispatch = function (type, data) {
+                    var obj = {
+                        type: type,
+                        target: this,
+                        timeStamp: (new Date()).getTime(),
+                        data: data
+                    }
+                    var tocall = [];
+                    var list = OZ.Event._byName[type];
+                    for (var id in list) {
+                        var item = list[id];
+                        if (!item[0] || item[0] == this) { tocall.push(item[2]); }
+                    }
+                    var len = tocall.length;
+                    for (var i = 0; i < len; i++) { tocall[i](obj); }
+                }
+                return c;
+            },
+            DOM: {
+                elm: function (name, opts) {
+                    var elm = document.createElement(name);
+                    for (var p in opts) {
+                        var val = opts[p];
+                        if (p == "class") { p = "className"; }
+                        if (p in elm) { elm[p] = val; }
+                    }
+                    OZ.Style.set(elm, opts);
+                    return elm;
+                },
+                text: function (str) { return document.createTextNode(str); },
+                clear: function (node) { while (node.firstChild) { node.removeChild(node.firstChild); } },
+                pos: function (elm) {
+                    var cur = OZ.$(elm);
+                    var html = cur.ownerDocument.documentElement;
+                    var parent = cur.parentNode;
+                    var x = y = 0;
+                    if (cur == html) { return [x, y]; }
+                    while (1) {
+                        if (OZ.Style.get(cur, "position") == "fixed") {
+                            x += cur.offsetLeft;
+                            y += cur.offsetTop;
+                            return [x, y];
+                        }
+
+                        if (OZ.opera && (parent == html || OZ.Style.get(cur, "display") != "block")) { } else {
+                            x -= parent.scrollLeft;
+                            y -= parent.scrollTop;
+                        }
+                        if (parent == cur.offsetParent || cur.parentNode == html) {
+                            x += cur.offsetLeft;
+                            y += cur.offsetTop;
+                            cur = parent;
+                        }
+
+                        if (parent == html) { return [x, y]; }
+                        parent = parent.parentNode;
+                    }
+                },
+                scroll: function () {
+                    var x = document.documentElement.scrollLeft || document.body.scrollLeft || 0;
+                    var y = document.documentElement.scrollTop || document.body.scrollTop || 0;
+                    return [x, y];
+                },
+                win: function (avail) {
+                    return (avail ? [window.innerWidth, window.innerHeight] : [document.documentElement.clientWidth, document.documentElement.clientHeight]);
+                },
+                hasClass: function (node, className) {
+                    var cn = OZ.$(node).className;
+                    var arr = (cn ? cn.split(" ") : []);
+                    return (arr.indexOf(className) != -1);
+                },
+                addClass: function (node, className) {
+                    if (OZ.DOM.hasClass(node, className)) { return; }
+                    var cn = OZ.$(node).className;
+                    var arr = (cn ? cn.split(" ") : []);
+                    arr.push(className);
+                    OZ.$(node).className = arr.join(" ");
+                },
+                removeClass: function (node, className) {
+                    if (!OZ.DOM.hasClass(node, className)) { return; }
+                    var cn = OZ.$(node).className;
+                    var arr = (cn ? cn.split(" ") : []);
+                    var arr = arr.filter(function ($) { return $ != className; });
+                    OZ.$(node).className = arr.join(" ");
+                },
+                append: function () {
+                    if (arguments.length == 1) {
+                        var arr = arguments[0];
+                        var root = OZ.$(arr[0]);
+                        for (var i = 1; i < arr.length; i++) { root.appendChild(OZ.$(arr[i])); }
+                    } else for (var i = 0; i < arguments.length; i++) { OZ.DOM.append(arguments[i]); }
+                }
+            },
+            Style: {
+                get: function (elm, prop) {
+                    if (document.defaultView && document.defaultView.getComputedStyle) {
+                        try {
+                            var cs = elm.ownerDocument.defaultView.getComputedStyle(elm, "");
+                        } catch (e) {
+                            return false;
+                        }
+                        if (!cs) { return false; }
+                        return cs[prop];
+                    } else {
+                        return elm.currentStyle[prop];
+                    }
+                },
+                set: function (elm, obj) {
+                    for (var p in obj) {
+                        var val = obj[p];
+                        if (p == "opacity" && OZ.ie) {
+                            p = "filter";
+                            val = "alpha(opacity=" + Math.round(100 * val) + ")";
+                            elm.style.zoom = 1;
+                        } else if (p == "float") {
+                            p = (OZ.ie ? "styleFloat" : "cssFloat");
+                        }
+                        if (p in elm.style) { elm.style[p] = val; }
+                    }
+                }
+            },
+            Request: function (url, callback, options) {
+                var o = { data: false, method: "get", headers: {}, xml: false }
+                for (var p in options) { o[p] = options[p]; }
+                o.method = o.method.toUpperCase();
+
+                var xhr = false;
+                if (window.XMLHttpRequest) { xhr = new XMLHttpRequest(); }
+                else if (window.ActiveXObject) { xhr = new ActiveXObject("Microsoft.XMLHTTP"); }
+                else { return false; }
+                xhr.open(o.method, url, true);
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState != 4) { return; }
+                    if (!callback) { return; }
+                    var data = (o.xml ? xhr.responseXML : xhr.responseText);
+                    var headers = {};
+                    var h = xhr.getAllResponseHeaders();
+                    if (h) {
+                        h = h.split(/[\r\n]/);
+                        for (var i = 0; i < h.length; i++) if (h[i]) {
+                            var v = h[i].match(/^([^:]+): *(.*)$/);
+                            headers[v[1]] = v[2];
+                        }
+                    }
+                    callback(data, xhr.status, headers);
+                };
+                if (o.method == "POST") { xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); }
+                for (var p in o.headers) { xhr.setRequestHeader(p, o.headers[p]); }
+                xhr.send(o.data || null);
+                return xhr;
+            }
+        }
+
+        // Полифиллы
+        if (!Function.prototype.bind) {
+            Function.prototype.bind = function (thisObj) {
+                var fn = this;
+                var args = Array.prototype.slice.call(arguments, 1);
+                return function () {
+                    return fn.apply(thisObj, args.concat(Array.prototype.slice.call(arguments)));
+                }
+            }
+        };
+
+        if (!Array.prototype.indexOf) {
+            Array.prototype.indexOf = function (item, from) {
+                var len = this.length;
+                var i = from || 0;
+                if (i < 0) { i += len; }
+                for (; i < len; i++) {
+                    if (i in this && this[i] === item) { return i; }
+                }
+                return -1;
+            }
+        }
+
+        // ---------- css3.oz.js ----------
+        OZ.CSS3 = {
+            getProperty: function (property) {
+                var prefix = this.getPrefix(this._normalize(property));
+                if (prefix === null) { return null; }
+                return (prefix ? "-" + prefix.toLowerCase() + "-" : "") + property;
+            },
+            set: function (node, prop, value) {
+                prop = this._normalize(prop);
+                var prefix = this.getPrefix(prop);
+                if (prefix === null) { return false; }
+                var p = (prefix ? prefix + prop.charAt(0).toUpperCase() + prop.substring(1) : prop);
+                node.style[p] = value;
+                return true;
+            },
+            getPrefix: function (property) {
+                var prefixes = ["", "ms", "Webkit", "O", "Moz"];
+                for (var i = 0; i < prefixes.length; i++) {
+                    var p = prefixes[i];
+                    var prop = (p ? p + property.charAt(0).toUpperCase() + property.substring(1) : property);
+                    if (prop in this._node.style) { return p; }
+                }
+                return null;
+            },
+            _normalize: function (property) {
+                return property.replace(/-([a-z])/g, function (match, letter) { return letter.toUpperCase(); });
+            },
+            _node: OZ.DOM.elm("div")
+        }
+
+        // ---------- quaternion.js ----------
+        var Quaternion = OZ.Class();
+
+        Quaternion.fromRotation = function (axis, angle) {
+            var DEG2RAD = Math.PI / 180;
+            var a = angle * DEG2RAD;
+
+            var sin = Math.sin(a / 2);
+            var cos = Math.cos(a / 2);
+
+            return new this(
+                axis[0] * sin, axis[1] * sin, axis[2] * sin,
+                cos
+            );
+        }
+
+        Quaternion.fromUnit = function () {
+            return new this(0, 0, 0, 1);
+        }
+
+        Quaternion.prototype.init = function (x, y, z, w) {
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.w = w;
+        }
+
+        Quaternion.prototype.normalize = function () {
+            var norm = Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w);
+            return new this.constructor(this.x / norm, this.y / norm, this.z / norm, this.w / norm);
+        }
+
+        Quaternion.prototype.conjugate = function () {
+            return new this.constructor(-this.x, -this.y, -this.z, this.w);
+        }
+
+        Quaternion.prototype.multiply = function (q) {
+            var p = this;
+
+            var x = p.w * q.x + p.x * q.w + p.y * q.z - p.z * q.y;
+            var y = p.w * q.y + p.y * q.w + p.z * q.x - p.x * q.z;
+            var z = p.w * q.z + p.z * q.w + p.x * q.y - p.y * q.x;
+            var w = p.w * q.w - p.x * q.x - p.y * q.y - p.z * q.z;
+
+            return new this.constructor(x, y, z, w);
+        }
+
+        Quaternion.prototype.toAxis = function () {
+            return [this.x, this.y, this.z];
+        }
+
+        Quaternion.prototype.toAngle = function () {
+            var RAD2DEG = 180 / Math.PI;
+            return RAD2DEG * 2 * Math.acos(this.w);
+        }
+
+        Quaternion.prototype.toRotation = function () {
+            var axis = this.toAxis();
+            var angle = this.toAngle();
+            return "rotate3d(" + axis[0].toFixed(10) + "," + axis[1].toFixed(10) + "," + axis[2].toFixed(10) + "," + angle.toFixed(10) + "deg)";
+        }
+
+        // ---------- rubik.js ----------
+        Array.prototype.random = function () {
+            return this[Math.floor(Math.random() * this.length)];
+        }
+
+        var Face = OZ.Class();
+        Face.SIZE = 100;
+        Face.LEFT = 0;
+        Face.RIGHT = 1;
+        Face.TOP = 2;
+        Face.BOTTOM = 3;
+        Face.FRONT = 4;
+        Face.BACK = 5;
+
+        Face.ROTATION = [
+            [Face.TOP, Face.FRONT, Face.BOTTOM, Face.BACK].reverse(),
+            [Face.LEFT, Face.BACK, Face.RIGHT, Face.FRONT].reverse(),
+            [Face.LEFT, Face.BOTTOM, Face.RIGHT, Face.TOP].reverse()
+        ];
+
+        Face.FACE_NAMES = {
+            'F': Face.FRONT,
+            'B': Face.BACK,
+            'R': Face.RIGHT,
+            'L': Face.LEFT,
+            'U': Face.TOP,
+            'D': Face.BOTTOM
+        };
+
+        Face.FACE_COLORS = {
+            'F': 'green',
+            'B': 'blue',
+            'R': 'red',
+            'L': 'orange',
+            'U': 'white',
+            'D': 'yellow'
+        };
+
+        Face.prototype.init = function (cube, type) {
+            this._cube = cube;
+            this._type = type;
+            this._color = null;
+            this._node = OZ.DOM.elm("div", { className: "face face" + type, width: Face.SIZE + "px", height: Face.SIZE + "px", position: "absolute", left: "0px", top: "0px" });
+            OZ.CSS3.set(this._node, "box-sizing", "border-box");
+
+            switch (type) {
+                case Face.LEFT:
+                    OZ.CSS3.set(this._node, "transform-origin", "100% 50%");
+                    OZ.CSS3.set(this._node, "transform", "translate3d(-" + Face.SIZE + "px, 0px, 0px) rotateY(-90deg)");
+                    break;
+                case Face.RIGHT:
+                    OZ.CSS3.set(this._node, "transform-origin", "0% 50%");
+                    OZ.CSS3.set(this._node, "transform", "translate3d(" + Face.SIZE + "px, 0px, 0px) rotateY(90deg)");
+                    break;
+                case Face.TOP:
+                    OZ.CSS3.set(this._node, "transform-origin", "50% 100%");
+                    OZ.CSS3.set(this._node, "transform", "translate3d(0px, -" + Face.SIZE + "px, 0px) rotateX(90deg)");
+                    break;
+                case Face.BOTTOM:
+                    OZ.CSS3.set(this._node, "transform-origin", "50% 0%");
+                    OZ.CSS3.set(this._node, "transform", "translate3d(0px, " + Face.SIZE + "px, 0px) rotateX(-90deg)");
+                    break;
+                case Face.FRONT:
+                    break;
+                case Face.BACK:
+                    OZ.CSS3.set(this._node, "transform", "translate3d(0px, 0px, -" + Face.SIZE + "px) rotateY(180deg)");
+                    break;
+            }
+        }
+
+        Face.prototype.getCube = function () {
+            return this._cube;
+        }
+
+        Face.prototype.getNode = function () {
+            return this._node;
+        }
+
+        Face.prototype.getType = function () {
+            return this._type;
+        }
+
+        Face.prototype.setColor = function (color) {
+            this._color = color;
+            this._node.style.backgroundColor = color;
+        }
+
+        Face.prototype.getColor = function () {
+            return this._color;
+        }
+
+        var Cube = OZ.Class();
+        Cube.prototype.init = function (position) {
+            this._rotation = null;
+            this._position = position;
+            this._node = OZ.DOM.elm("div", { className: "cube", position: "absolute", width: Face.SIZE + "px", height: Face.SIZE + "px" });
+            this._faces = {};
+            this._tmpFaces = {};
+            OZ.CSS3.set(this._node, "transform-style", "preserve-3d");
+            this._update();
+        }
+
+        Cube.prototype.getFaces = function () {
+            return this._faces;
+        }
+
+        Cube.prototype.setFace = function (type, color) {
+            if (!(type in this._faces)) {
+                var face = new Face(this, type);
+                this._node.appendChild(face.getNode());
+                this._faces[type] = face;
+            }
+            this._faces[type].setColor(color);
+        }
+
+        Cube.prototype.setRotation = function (rotation) {
+            this._rotation = rotation;
+            this._update();
+        }
+
+        Cube.prototype.prepareColorChange = function (sourceCube, rotation) {
+            this._tmpFaces = {};
+            var sourceFaces = sourceCube.getFaces();
+            for (var p in sourceFaces) {
+                var sourceType = parseInt(p);
+                var targetType = this._rotateType(sourceType, rotation);
+                this._tmpFaces[targetType] = sourceFaces[sourceType].getColor();
+            }
+        }
+
+        Cube.prototype.commitColorChange = function () {
+            OZ.DOM.clear(this._node);
+            this._faces = {};
+            for (var p in this._tmpFaces) {
+                var type = parseInt(p);
+                this.setFace(type, this._tmpFaces[p]);
+            }
+            this._tmpFaces = {};
+            this._rotation = null;
+            this._update();
+        }
+
+        Cube.prototype._rotateType = function (type, rotation) {
+            for (var i = 0; i < 3; i++) {
+                if (!rotation[i]) { continue; }
+                var faces = Face.ROTATION[i];
+                var index = faces.indexOf(type);
+                if (index == -1) { continue; }
+                index = (index + rotation[i] + faces.length) % faces.length;
+                return faces[index];
+            }
+            return type;
+        }
+
+        Cube.prototype._update = function () {
+            var transform = "";
+            transform += "translate3d(" + (-Face.SIZE / 2) + "px, " + (-Face.SIZE / 2) + "px, " + (-Face.SIZE / 2) + "px) ";
+            if (this._rotation) { transform += this._rotation + " "; }
+
+            var half = Math.floor(Rubik.SIZE / 2) - (Rubik.SIZE % 2 === 0 ? 1 / 2 : 0);
+            var x = this._position[0];
+            var y = this._position[1];
+            var z = -this._position[2];
+            x -= half;
+            y -= half;
+            z += half + 1 / 2;
+            transform += "translate3d(" + (x * Face.SIZE) + "px, " + (y * Face.SIZE) + "px, " + (z * Face.SIZE) + "px)";
+
+            var prop = OZ.CSS3.getProperty("transform");
+            var val = this._rotation ? prop + " 300ms" : "";
+            OZ.CSS3.set(this._node, "transition", val);
+            OZ.CSS3.set(this._node, "transform", transform);
+        }
+
+        Cube.prototype.getPosition = function () {
+            return this._position;
+        }
+
+        Cube.prototype.getNode = function () {
+            return this._node;
+        }
+
+        // ---------- Rubik (main) ----------
+        var Rubik = OZ.Class();
+        Rubik.SIZE = 3;
+
+        Rubik.prototype.init = function () {
+            this._cubes = [];
+            this._faces = [];
+            this._faceNodes = [];
+            this._drag = {
+                ec: [],
+                mouse: [],
+                face: null
+            };
+            this._animationQueue = [];
+            this._isAnimating = false;
+            this._processingQueue = false;
+            this._currentMoveIndex = 0;
+            this._totalMoves = 0;
+            this._nextMoveTimer = null;
+            this._updateStatus = function () { };
+            this._buttons = [];
+
+            // Сохраняем текущую ориентацию
+            this._currentFront = 'F';
+            this._currentTop = 'U';
+
+            // Состояние для кнопки ЦЕНТР (переворот верх дном)
+            this._centerFlipState = false;
+
+            this._rotation = Quaternion.fromRotation([1, 0, 0], 0).multiply(Quaternion.fromRotation([0, 1, 0], 0));
+            this._node = OZ.DOM.elm("div", { position: "absolute", left: "50%", top: "55%", width: "0px", height: "0px" });
+            document.body.appendChild(this._node);
+
+            OZ.CSS3.set(document.body, "perspective", ANIMATION.PERSPECTIVE);
+            OZ.CSS3.set(this._node, "transform-style", "preserve-3d");
+
+            this._build();
+            this._update();
+            OZ.Event.add(document.body, "mousedown touchstart", this._dragStart.bind(this));
+
+            setTimeout(this.centerToStartPosition.bind(this), 200);
+
+            // Инициализируем кнопки выбора стороны
+            this._initSideButtons();
+            this._initTopButtons();
+
+            // Инициализируем крестик управления
+            this._initControlCross();
+        }
+
+        Rubik.prototype._initSideButtons = function () {
+            var btnF = document.getElementById('btnF');
+            var btnR = document.getElementById('btnR');
+            var btnB = document.getElementById('btnB');
+            var btnL = document.getElementById('btnL');
+
+            var self = this;
+
+            btnF.addEventListener('click', function () {
+                self.setFrontFace('F');
+                self._updateSideButtons('btnF');
+            });
+
+            btnR.addEventListener('click', function () {
+                self.setFrontFace('R');
+                self._updateSideButtons('btnR');
+            });
+
+            btnB.addEventListener('click', function () {
+                self.setFrontFace('B');
+                self._updateSideButtons('btnB');
+            });
+
+            btnL.addEventListener('click', function () {
+                self.setFrontFace('L');
+                self._updateSideButtons('btnL');
+            });
+
+            // Активируем кнопку F по умолчанию
+            btnF.classList.add('active');
+        }
+
+        Rubik.prototype._initTopButtons = function () {
+            var btnU = document.getElementById('btnU');
+            var btnD = document.getElementById('btnD');
+
+            var self = this;
+
+            btnU.addEventListener('click', function () {
+                self.setTopFace('U');
+                self._updateTopButtons('btnU');
+            });
+
+            btnD.addEventListener('click', function () {
+                self.setTopFace('D');
+                self._updateTopButtons('btnD');
+            });
+
+            // Активируем кнопку U по умолчанию
+            btnU.classList.add('active');
+        }
+
+Rubik.prototype._initControlCross = function () {
+    var btnUp = document.getElementById('rotateUp');
+    var btnDown = document.getElementById('rotateDown');
+    var btnLeft = document.getElementById('rotateLeft');
+    var btnRight = document.getElementById('rotateRight');
+
+    var self = this;
+
+    // Меняем все направления для взгляда снизу
+    btnUp.addEventListener('click', function () {
+        self.rotateDown();  // Вверх -> крутим вниз
+    });
+
+    btnDown.addEventListener('click', function () {
+        self.rotateUp();    // Вниз -> крутим вверх
+    });
+
+    btnLeft.addEventListener('click', function () {
+        self.rotateRight(); // Влево -> крутим вправо
+    });
+
+    btnRight.addEventListener('click', function () {
+        self.rotateLeft();  // Вправо -> крутим влево
+    });
+}
+
+        Rubik.prototype._updateSideButtons = function (activeId) {
+            var buttons = ['btnF', 'btnR', 'btnB', 'btnL'];
+            buttons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            });
+
+            var activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        Rubik.prototype._updateTopButtons = function (activeId) {
+            var buttons = ['btnU', 'btnD'];
+            buttons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            });
+
+            var activeBtn = document.getElementById(activeId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        Rubik.prototype.setFrontFace = function (face) {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._currentFront = face;
+
+            var faceNames = {
+                'F': 'Зеленая (F)',
+                'R': 'Красная (R)',
+                'B': 'Синяя (B)',
+                'L': 'Оранжевая (L)'
+            };
+
+            document.getElementById('currentFrontCompact').textContent = faceNames[face] || face;
+        }
+
+        Rubik.prototype.setTopFace = function (face) {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._currentTop = face;
+
+            var topNames = {
+                'U': 'Белая (U)',
+                'D': 'Желтая (D)'
+            };
+
+            document.getElementById('currentTopCompact').textContent = topNames[face] || face;
+        }
+
+        Rubik.prototype.setButtons = function (buttons) {
+            this._buttons = buttons;
+        }
+
+        Rubik.prototype.setStatusCallback = function (callback) {
+            this._updateStatus = callback;
+        }
+
+        Rubik.prototype._setButtonsEnabled = function (enabled) {
+            for (var i = 0; i < this._buttons.length; i++) {
+                this._buttons[i].disabled = !enabled;
+            }
+
+            // Также отключаем/включаем кнопки крестика
+            var crossButtons = ['rotateUp', 'rotateDown', 'rotateLeft', 'rotateRight'];
+            crossButtons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.disabled = !enabled;
+                }
+            });
+
+            // Отключаем/включаем кнопки выбора сторон
+            var sideButtons = ['btnF', 'btnR', 'btnB', 'btnL', 'btnU', 'btnD'];
+            sideButtons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.style.pointerEvents = enabled ? 'auto' : 'none';
+                    btn.style.opacity = enabled ? '1' : '0.5';
+                }
+            });
+        }
+
+        Rubik.prototype._update = function () {
+            OZ.CSS3.set(this._node, "transform", "translateZ(" + (-Face.SIZE / 2 - Face.SIZE) + "px) " + this._rotation.toRotation() + " translateZ(" + (Face.SIZE / 2) + "px)");
+        }
+
+        Rubik.prototype._eventToFace = function (e) {
+            if (document.elementFromPoint) {
+                e = (e.touches ? e.touches[0] : e);
+                var node = document.elementFromPoint(e.clientX, e.clientY);
+            } else {
+                var node = OZ.Event.target(e);
+            }
+            var index = this._faceNodes.indexOf(node);
+            if (index == -1) { return null; }
+            return this._faces[index];
+        }
+
+        Rubik.prototype._dragStart = function (e) {
+            this._faces = [];
+            this._faceNodes = [];
+            for (var i = 0; i < this._cubes.length; i++) {
+                var faces = this._cubes[i].getFaces();
+                for (var p in faces) {
+                    this._faces.push(faces[p]);
+                    this._faceNodes.push(faces[p].getNode());
+                }
+            }
+
+            OZ.Event.prevent(e);
+            this._drag.face = this._eventToFace(e);
+            e = (e.touches ? e.touches[0] : e);
+            this._drag.mouse = [e.clientX, e.clientY];
+
+            this._drag.ec.push(OZ.Event.add(document.body, "mousemove touchmove", this._dragMove.bind(this)));
+            this._drag.ec.push(OZ.Event.add(document.body, "mouseup touchend", this._dragEnd.bind(this)));
+        }
+
+        Rubik.prototype._dragMove = function (e) {
+            if (e.touches && e.touches.length > 1) { return; }
+
+            if (this._drag.face) {
+                var thisFace = this._eventToFace(e);
+                if (!thisFace || thisFace == this._drag.face) { return; }
+                this._dragEnd();
+                this._rotate(this._drag.face, thisFace);
+            } else {
+                e = (e.touches ? e.touches[0] : e);
+                var mouse = [e.clientX, e.clientY];
+                var dx = mouse[0] - this._drag.mouse[0];
+                var dy = mouse[1] - this._drag.mouse[1];
+                var norm = Math.sqrt(dx * dx + dy * dy);
+                if (!norm) { return; }
+                var N = [-dy / norm, dx / norm];
+
+                this._drag.mouse = mouse;
+                this._rotation = Quaternion.fromRotation([N[0], N[1], 0], norm / 2).multiply(this._rotation);
+                this._update();
+            }
+        }
+
+        Rubik.prototype._dragEnd = function (e) {
+            while (this._drag.ec.length) { OZ.Event.remove(this._drag.ec.pop()); }
+        }
+
+        Rubik.prototype._rotate = function (face1, face2) {
+            var t1 = face1.getType();
+            var t2 = face2.getType();
+            var pos1 = face1.getCube().getPosition();
+            var pos2 = face2.getCube().getPosition();
+
+            var diff = 0;
+            var diffIndex = -1;
+            for (var i = 0; i < 3; i++) {
+                var d = pos1[i] - pos2[i];
+                if (d) {
+                    if (diffIndex != -1) { return; }
+                    diff = (d > 0 ? 1 : -1);
+                    diffIndex = i;
+                }
+            }
+
+            if (t1 == t2) {
+                switch (t1) {
+                    case Face.FRONT:
+                    case Face.BACK:
+                        var coef = (t1 == Face.FRONT ? 1 : -1);
+                        if (diffIndex == 0) { this._rotateY(coef * diff, pos1[1]); } else { this._rotateX(coef * diff, pos1[0]); }
+                        break;
+                    case Face.LEFT:
+                    case Face.RIGHT:
+                        var coef = (t1 == Face.LEFT ? 1 : -1);
+                        if (diffIndex == 2) { this._rotateY(-coef * diff, pos1[1]); } else { this._rotateZ(coef * diff, pos1[2]); }
+                        break;
+                    case Face.TOP:
+                    case Face.BOTTOM:
+                        var coef = (t1 == Face.TOP ? 1 : -1);
+                        if (diffIndex == 0) { this._rotateZ(-coef * diff, pos1[2]); } else { this._rotateX(-coef * diff, pos1[0]); }
+                        break;
+                }
+                return;
+            }
+
+            switch (t1) {
+                case Face.FRONT:
+                case Face.BACK:
+                    var coef = (t1 == Face.FRONT ? 1 : -1);
+                    if (t2 == Face.LEFT) { this._rotateY(1 * coef, pos1[1]); }
+                    if (t2 == Face.RIGHT) { this._rotateY(-1 * coef, pos1[1]); }
+                    if (t2 == Face.TOP) { this._rotateX(1 * coef, pos1[0]); }
+                    if (t2 == Face.BOTTOM) { this._rotateX(-1 * coef, pos1[0]); }
+                    break;
+                case Face.LEFT:
+                case Face.RIGHT:
+                    var coef = (t1 == Face.LEFT ? 1 : -1);
+                    if (t2 == Face.FRONT) { this._rotateY(-1 * coef, pos1[1]); }
+                    if (t2 == Face.BACK) { this._rotateY(1 * coef, pos1[1]); }
+                    if (t2 == Face.TOP) { this._rotateZ(1 * coef, pos1[2]); }
+                    if (t2 == Face.BOTTOM) { this._rotateZ(-1 * coef, pos1[2]); }
+                    break;
+                case Face.TOP:
+                case Face.BOTTOM:
+                    var coef = (t1 == Face.TOP ? 1 : -1);
+                    if (t2 == Face.FRONT) { this._rotateX(-1 * coef, pos1[0]); }
+                    if (t2 == Face.BACK) { this._rotateX(1 * coef, pos1[0]); }
+                    if (t2 == Face.LEFT) { this._rotateZ(-1 * coef, pos1[2]); }
+                    if (t2 == Face.RIGHT) { this._rotateZ(1 * coef, pos1[2]); }
+                    break;
+            }
+        }
+
+        // Методы поворота слоев
+        Rubik.prototype._rotateX = function (dir, layer) {
+            var cubes = [];
+            for (var i = 0; i < Rubik.SIZE * Rubik.SIZE; i++) {
+                cubes.push(this._cubes[layer + i * Rubik.SIZE]);
+            }
+            this._rotateCubes(cubes, [dir, 0, 0]);
+        }
+
+        Rubik.prototype._rotateY = function (dir, layer) {
+            var cubes = [];
+            for (var i = 0; i < Rubik.SIZE; i++) {
+                for (var j = 0; j < Rubik.SIZE; j++) {
+                    cubes.push(this._cubes[j + layer * Rubik.SIZE + i * Rubik.SIZE * Rubik.SIZE]);
+                }
+            }
+            this._rotateCubes(cubes, [0, -dir, 0]);
+        }
+
+        Rubik.prototype._rotateZ = function (dir, layer) {
+            var cubes = [];
+            var offset = layer * Rubik.SIZE * Rubik.SIZE;
+            for (var i = 0; i < Rubik.SIZE * Rubik.SIZE; i++) {
+                cubes.push(this._cubes[offset + i]);
+            }
+            this._rotateCubes(cubes, [0, 0, dir]);
+        }
+
+        Rubik.prototype._rotateCubes = function (cubes, rotation) {
+            var suffixes = ["X", "Y", ""];
+
+            var prefix = OZ.CSS3.getPrefix("transition");
+            if (prefix === null) {
+                this._finalizeRotation(cubes, rotation);
+            } else {
+                var cb = function () {
+                    OZ.Event.remove(e);
+                    this._finalizeRotation(cubes, rotation);
+                }
+                var e = OZ.Event.add(document.body, "webkitTransitionEnd transitionend MSTransitionEnd oTransitionEnd", cb.bind(this));
+
+                var str = "";
+                for (var i = 0; i < 3; i++) {
+                    if (!rotation[i]) { continue; }
+                    str = "rotate" + suffixes[i] + "(" + (90 * rotation[i]) + "deg)";
+                }
+                for (var i = 0; i < cubes.length; i++) { cubes[i].setRotation(str); }
+            }
+        }
+
+        Rubik.prototype._finalizeRotation = function (cubes, rotation) {
+            var direction = 0;
+            for (var i = 0; i < 3; i++) {
+                if (rotation[i]) { direction = rotation[i]; }
+            }
+
+            if (rotation[0]) { direction *= -1; }
+
+            var half = Math.floor(Rubik.SIZE / 2) - (Rubik.SIZE % 2 === 0 ? 1 / 2 : 0);
+
+            for (var i = 0; i < cubes.length; i++) {
+                var x = i % Rubik.SIZE - half;
+                var y = Math.floor(i / Rubik.SIZE) - half;
+
+                var source = [y * direction + half, -x * direction + half];
+                var sourceIndex = source[0] + Rubik.SIZE * source[1];
+
+                cubes[i].prepareColorChange(cubes[sourceIndex], rotation);
+            }
+
+            for (var i = 0; i < cubes.length; i++) { cubes[i].commitColorChange(); }
+
+            setTimeout(function () {
+                this.dispatch("rotated");
+                this._processingQueue = false;
+
+                this._currentMoveIndex++;
+                if (this._updateStatus) {
+                    this._updateStatus(this._currentMoveIndex, this._totalMoves);
+                }
+
+                // Пауза между ходами
+                this._nextMoveTimer = setTimeout(function () {
+                    this._processAnimationQueue();
+                }.bind(this), ANIMATION.DELAY_BETWEEN_MOVES);
+            }.bind(this), 100);
+        }
+
+        Rubik.prototype._build = function () {
+            for (var z = 0; z < Rubik.SIZE; z++) {
+                for (var y = 0; y < Rubik.SIZE; y++) {
+                    for (var x = 0; x < Rubik.SIZE; x++) {
+                        var cube = new Cube([x, y, z]);
+                        this._cubes.push(cube);
+
+                        // Стандарт WCA: белый верх (U), зеленый фронт (F)
+                        if (z == 0) { cube.setFace(Face.FRONT, "green"); }     // F - зеленый
+                        if (z == 2) { cube.setFace(Face.BACK, "blue"); }       // B - синий
+
+                        if (x == 0) { cube.setFace(Face.LEFT, "orange"); }     // L - оранжевый
+                        if (x == 2) { cube.setFace(Face.RIGHT, "red"); }       // R - красный
+
+                        if (y == 0) { cube.setFace(Face.TOP, "white"); }       // U - белый
+                        if (y == 2) { cube.setFace(Face.BOTTOM, "yellow"); }   // D - желтый
+
+                        this._node.appendChild(cube.getNode());
+                    }
+                }
+            }
+        }
+
+        Rubik.prototype.centerToStartPosition = function (callback) {
+            if (this._isAnimating || this._processingQueue) {
+                setTimeout(function () {
+                    this.centerToStartPosition(callback);
+                }.bind(this), 100);
+                return;
+            }
+
+            var targetAngles = { x: -20, y: -30, z: 0 };
+            this._smoothRotateTo(targetAngles, callback);
+        }
+
+        Rubik.prototype._slerp = function (q1, q2, t) {
+            var dot = q1.x * q2.x + q1.y * q2.y + q1.z * q2.z + q1.w * q2.w;
+
+            if (dot < 0) {
+                q2 = new Quaternion(-q2.x, -q2.y, -q2.z, -q2.w);
+                dot = -dot;
+            }
+
+            var theta = Math.acos(dot);
+            var sinTheta = Math.sin(theta);
+
+            if (sinTheta < 0.001) {
+                return new Quaternion(
+                    q1.x + t * (q2.x - q1.x),
+                    q1.y + t * (q2.y - q1.y),
+                    q1.z + t * (q2.z - q1.z),
+                    q1.w + t * (q2.w - q1.w)
+                ).normalize();
+            }
+
+            var w1 = Math.sin((1 - t) * theta) / sinTheta;
+            var w2 = Math.sin(t * theta) / sinTheta;
+
+            return new Quaternion(
+                w1 * q1.x + w2 * q2.x,
+                w1 * q1.y + w2 * q2.y,
+                w1 * q1.z + w2 * q2.z,
+                w1 * q1.w + w2 * q2.w
+            ).normalize();
+        }
+
+        Rubik.prototype._smoothRotateTo = function (targetAngles, callback) {
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.SLERP_DURATION;
+
+            var targetQuat = Quaternion.fromUnit();
+            targetQuat = targetQuat.multiply(Quaternion.fromRotation([1, 0, 0], targetAngles.x));
+            targetQuat = targetQuat.multiply(Quaternion.fromRotation([0, 1, 0], targetAngles.y));
+            targetQuat = targetQuat.multiply(Quaternion.fromRotation([0, 0, 1], targetAngles.z));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+                    if (callback) callback();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // Методы поворота всего кубика с помощью крестика
+        Rubik.prototype.rotateUp = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вверх (вокруг оси X, отрицательный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], -90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        Rubik.prototype.rotateDown = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вниз (вокруг оси X, положительный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        Rubik.prototype.rotateLeft = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот влево (вокруг оси Y, положительный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], 90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        Rubik.prototype.rotateRight = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вправо (вокруг оси Y, отрицательный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], -90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // Функция для переворота кубика верх дном
+        Rubik.prototype.flipUpsideDown = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION * 2;
+
+            // Переворот на 180 градусов по оси X (верх дном)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 180));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // Обновляем маппинг сторон при перевороте
+                    this._updateMappingForFlip();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // Обновление маппинга сторон после переворота
+        Rubik.prototype._updateMappingForFlip = function () {
+            // Переключаем состояние
+            this._centerFlipState = !this._centerFlipState;
+
+            var faceNames = {
+                'F': 'Зеленая (F)',
+                'R': 'Красная (R)',
+                'B': 'Синяя (B)',
+                'L': 'Оранжевая (L)'
+            };
+
+            var topNames = {
+                'U': 'Белая (U)',
+                'D': 'Желтая (D)'
+            };
+
+            // Обновляем отображение текущих сторон
+            document.getElementById('currentFrontCompact').textContent = faceNames[this._currentFront] || this._currentFront;
+            document.getElementById('currentTopCompact').textContent = topNames[this._currentTop] || this._currentTop;
+        }
+
+        // Преобразование хода с учетом текущей ориентации
+        Rubik.prototype._transformMove = function (move) {
+            var face = move[0];
+            var suffix = move.length > 1 ? move[1] : '';
+
+            // Получаем текущую ориентацию
+            var currentFront = this._currentFront;
+            var currentTop = this._currentTop;
+
+            // Создаем объект для хранения текущего положения каждой стандартной стороны
+            var currentPosition = {};
+
+            // Начинаем с известных: front и top
+            currentPosition[currentFront] = 'F';
+            currentPosition[this._getOppositeSide(currentFront)] = 'B';
+
+            currentPosition[currentTop] = 'U';
+            currentPosition[this._getOppositeSide(currentTop)] = 'D';
+
+            // Определяем правую сторону на основе front и top
+            var rightSide = this._getRightSide(currentFront, currentTop);
+            currentPosition[rightSide] = 'R';
+            currentPosition[this._getOppositeSide(rightSide)] = 'L';
+
+            // Создаем обратный маппинг: из стандартной стороны в реальную
+            var realToObserver = {};
+            for (var real in currentPosition) {
+                var observer = currentPosition[real];
+                realToObserver[observer] = real;
+            }
+
+            // Преобразуем ход
+            if (face in realToObserver) {
+                return realToObserver[face] + suffix;
+            }
+
+            return face + suffix;
+        }
+
+        // Получить противоположную сторону
+        Rubik.prototype._getOppositeSide = function (side) {
+            var opposites = {
+                'F': 'B',
+                'B': 'F',
+                'R': 'L',
+                'L': 'R',
+                'U': 'D',
+                'D': 'U'
+            };
+            return opposites[side] || side;
+        }
+
+        // Определить правую сторону на основе передней и верхней
+        Rubik.prototype._getRightSide = function (front, top) {
+            if (top === 'U') {
+                if (front === 'F') return 'R';
+                if (front === 'R') return 'B';
+                if (front === 'B') return 'L';
+                if (front === 'L') return 'F';
+            } else if (top === 'D') {
+                if (front === 'F') return 'L';
+                if (front === 'R') return 'F';
+                if (front === 'B') return 'R';
+                if (front === 'L') return 'B';
+            }
+            return 'R';
+        }
+
+        Rubik.prototype._processAnimationQueue = function () {
+            if (this._processingQueue) return;
+
+            if (this._animationQueue.length > 0) {
+                this._processingQueue = true;
+                this._isAnimating = true;
+                var nextMove = this._animationQueue.shift();
+
+                // Преобразуем ход с учетом текущей ориентации
+                var transformedMove = this._transformMove(nextMove.face + (nextMove.dir === -1 ? "'" : ''));
+
+                var face = transformedMove[0];
+                var dir = 1;
+
+                if (transformedMove.length > 1 && transformedMove[1] === "'") {
+                    dir = -1;
+                }
+
+                var method = '';
+                var layer = 0;
+
+                switch (face) {
+                    case 'R':
+                        method = '_rotateX';
+                        layer = 2;
+                        break;
+                    case 'L':
+                        method = '_rotateX';
+                        layer = 0;
+                        dir = -dir;
+                        break;
+                    case 'U':
+                        method = '_rotateY';
+                        layer = 0;
+                        break;
+                    case 'D':
+                        method = '_rotateY';
+                        layer = 2;
+                        break;
+                    case 'F':
+                        method = '_rotateZ';
+                        layer = 0;
+                        break;
+                    case 'B':
+                        method = '_rotateZ';
+                        layer = 2;
+                        dir = -dir;
+                        break;
+                }
+
+                this[method](dir, layer);
+
+            } else {
+                this._isAnimating = false;
+                this._processingQueue = false;
+                this._currentMoveIndex = 0;
+                this._totalMoves = 0;
+                this._setButtonsEnabled(true);
+                if (this._updateStatus) {
+                    this._updateStatus(0, 0);
+                }
+            }
+        }
+
+        Rubik.prototype._addMove = function (move) {
+            var face = move[0];
+            var dir = 1;
+
+            if (move.length > 1) {
+                if (move[1] === "'") {
+                    dir = -1;
+                } else if (move[1] === '2') {
+                    dir = 2;
+                }
+            }
+
+            if (dir === 2) {
+                this._animationQueue.push({ face: face, dir: 1 });
+                this._animationQueue.push({ face: face, dir: 1 });
+            } else {
+                this._animationQueue.push({ face: face, dir: dir });
+            }
+        }
+
+        Rubik.prototype.executeAlgorithm = function (algorithm) {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            // Очищаем предыдущие таймеры
+            if (this._nextMoveTimer) {
+                clearTimeout(this._nextMoveTimer);
+                this._nextMoveTimer = null;
+            }
+
+            this._animationQueue = [];
+
+            var moves = [];
+
+            switch (algorithm) {
+                case 'ALGO_1':
+                    moves = ['R', 'U', "R'", "U'"];
+                    break;
+                case 'ALGO_6':
+                    moves = ["R'", 'D', 'R', "D'"];
+                    break;
+                case 'ALGO_2':
+                    moves = ['U', 'R', "U'", "R'", "U'", "F'", 'U', 'F'];
+                    break;
+                case 'ALGO_3':
+                    moves = ['F', 'R', 'U', "R'", "U'", "F'"];
+                    break;
+                case 'ALGO_4':
+                    moves = ['R', 'U', "R'", 'U', 'R', 'U2', "R'"];
+                    break;
+                case 'ALGO_5':
+                    moves = ['U', 'R', "U'", "L'", 'U', "R'", "U'", 'L'];
+                    break;
+                case 'CENTER':
+                    if (!this._centerFlipState) {
+                        this.centerToStartPosition();
+                    } else {
+                        this.flipUpsideDown();
+                    }
+                    return;
+                case 'RESET':
+                    this.reset();
+                    return;
+            }
+
+            this._totalMoves = moves.length;
+            this._currentMoveIndex = 0;
+            this._setButtonsEnabled(false);
+
+            for (var i = 0; i < moves.length; i++) {
+                this._addMove(moves[i]);
+            }
+
+            this._processAnimationQueue();
+        }
+
+        Rubik.prototype.reset = function () {
+            location.reload();
+        }
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function () {
+            window.rubikInstance = new Rubik();
+
+            var algoButtonsContainer = document.getElementById('algoButtons');
+
+            var buttons = [];
+
+            // Создание кнопок алгоритмов
+            var btn1 = document.createElement('button');
+            btn1.className = 'btn-1';
+            btn1.textContent = 'R U R\' U\'';
+            btn1.title = 'Верхний пиф-паф';
+            btn1.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_1');
+                }
+            };
+            algoButtonsContainer.appendChild(btn1);
+            buttons.push(btn1);
+
+            var btn1b = document.createElement('button');
+            btn1b.className = 'btn-1';
+            btn1b.textContent = 'R\' D R D\'';
+            btn1b.title = 'Нижний пиф-паф';
+            btn1b.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_6');
+                }
+            };
+            algoButtonsContainer.appendChild(btn1b);
+            buttons.push(btn1b);
+
+            var btn2 = document.createElement('button');
+            btn2.className = 'btn-2';
+            btn2.textContent = 'U R U\' R\' U\' F\' U F';
+            btn2.title = 'Вставка ребра';
+            btn2.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_2');
+                }
+            };
+            algoButtonsContainer.appendChild(btn2);
+            buttons.push(btn2);
+
+            var btn3 = document.createElement('button');
+            btn3.className = 'btn-3';
+            btn3.textContent = 'F R U R\' U\' F\'';
+            btn3.title = 'Крест OLL';
+            btn3.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_3');
+                }
+            };
+            algoButtonsContainer.appendChild(btn3);
+            buttons.push(btn3);
+
+            var btn4 = document.createElement('button');
+            btn4.className = 'btn-4';
+            btn4.textContent = 'R U R\' U R U2 R\'';
+            btn4.title = 'Sune OLL';
+            btn4.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_4');
+                }
+            };
+            algoButtonsContainer.appendChild(btn4);
+            buttons.push(btn4);
+
+            var btn5 = document.createElement('button');
+            btn5.className = 'btn-5';
+            btn5.textContent = 'U R U\' L\' U R\' U\' L';
+            btn5.title = 'Перестановка углов';
+            btn5.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_5');
+                }
+            };
+            algoButtonsContainer.appendChild(btn5);
+            buttons.push(btn5);
+
+            var btn6 = document.createElement('button');
+            btn6.className = 'btn-6';
+            btn6.textContent = 'ЦЕНТР';
+            btn6.title = 'Центрировать / Перевернуть верх дном';
+            btn6.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('CENTER');
+                }
+            };
+            algoButtonsContainer.appendChild(btn6);
+            buttons.push(btn6);
+
+            var btn7 = document.createElement('button');
+            btn7.className = 'btn-7';
+            btn7.textContent = 'СБРОС';
+            btn7.title = 'Перезагрузить кубик';
+            btn7.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('RESET');
+                }
+            };
+            algoButtonsContainer.appendChild(btn7);
+            buttons.push(btn7);
+
+            // Передаем кнопки в экземпляр Rubik
+            window.rubikInstance.setButtons(buttons);
+
+            // Устанавливаем колбэк для статуса (опционально)
+            window.rubikInstance.setStatusCallback(function (current, total) {
+                // Можно использовать для отладки при необходимости
+            });
+
+            // Устанавливаем начальные значения ориентации
+            document.getElementById('currentFrontCompact').textContent = 'Зеленая (F)';
+            document.getElementById('currentTopCompact').textContent = 'Белая (U)';
+        });
+    </script>
+</body>
+
+</html>
