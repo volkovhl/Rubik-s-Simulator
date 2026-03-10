@@ -6,25 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
 
     <!-- SEO метаданные -->
-<meta name="description"
-    content="Rubik's Simulator — интерактивный 3D кубик Рубика с алгоритмами сборки. Вращайте грани, меняйте ориентацию, изучайте пиф-пафы прямо в браузере.">
-<meta name="keywords"
-    content="Rubik's Simulator, rubik's cube, кубик рубика, 3d симулятор, алгоритмы сборки, пиф-паф, speedcube, спидкубинг, интерактивный">
-<meta name="author" content="volkovhl">
-<meta property="og:title" content="Rubik's Simulator — 3D кубик Рубика с алгоритмами">
-<meta property="og:description"
-    content="Интерактивный 3D симулятор кубика Рубика. Меняйте ориентацию, выполняйте алгоритмы, тренируйтесь на смартфоне.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://github.com/volkovhl/Rubiks-Simulator">
-<meta property="og:image" content="https://via.placeholder.com/512x512/4caf50/ffffff?text=Rubik's+Simulator">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Rubik's Simulator">
-<meta name="twitter:description" content="3D симулятор кубика Рубика с алгоритмами.">
+    <meta name="description"
+        content="Rubik's Simulator — интерактивный 3D кубик Рубика с алгоритмами сборки. Вращайте грани, меняйте ориентацию, изучайте пиф-пафы прямо в браузере.">
+    <meta name="keywords"
+        content="Rubik's Simulator, rubik's cube, кубик рубика, 3d симулятор, алгоритмы сборки, пиф-паф, speedcube, спидкубинг, интерактивный">
+    <meta name="author" content="volkovhl">
+    <meta property="og:title" content="Rubik's Simulator — 3D кубик Рубика с алгоритмами">
+    <meta property="og:description"
+        content="Интерактивный 3D симулятор кубика Рубика. Меняйте ориентацию, выполняйте алгоритмы, тренируйтесь на смартфоне.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://github.com/volkovhl/Rubiks-Simulator">
+    <meta property="og:image" content="https://via.placeholder.com/512x512/4caf50/ffffff?text=Rubik's+Simulator">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rubik's Simulator">
+    <meta name="twitter:description" content="3D симулятор кубика Рубика с алгоритмами.">
 
-<!-- YouTube ссылка (добавьте позже, когда создадите канал) -->
-<!-- <link rel="me" href="https://youtube.com/@ваш_канал"> -->
+    <!-- YouTube ссылка (добавьте позже, когда создадите канал) -->
+    <!-- <link rel="me" href="https://www.youtube.com/@Pavel_Volkov"> -->
 
-    <title>3D Кубик Рубика — интерактивный симулятор</title>
+    <title>3D Кубик Рубика — CFOP симулятор</title>
 
     <style>
         html,
@@ -43,20 +43,21 @@
         }
 
         /* Основной контейнер управления */
-.control-panel {
-    position: fixed;
-    bottom: 510px; /* для ПК */
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    z-index: 1000;
-    pointer-events: none;
-    padding: 0 10px;
-}
+        .control-panel {
+            position: fixed;
+            bottom: 510px;
+            /* для ПК */
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            z-index: 1000;
+            pointer-events: none;
+            padding: 0 10px;
+        }
 
 
 
@@ -128,8 +129,10 @@
         }
 
         .side-btn {
-            width: 38px;
-            height: 38px;
+            width: 27px;
+            /* было 38px, уменьшили на ~30% */
+            height: 27px;
+            /* было 38px, уменьшили на ~30% */
             border-radius: 50%;
             border: 2px solid white;
             cursor: pointer;
@@ -167,90 +170,94 @@
             background: #ffdd00;
         }
 
-        /* Крестовина управления (обновленный дизайн, под стать круглым кнопкам) */
+        /* Крестовина управления - суженная по вертикали */
         .control-cross-compact {
             display: grid;
-            grid-template-columns: 40px 40px 40px;
-            grid-template-rows: 40px 40px;
-            gap: 4px;
+            grid-template-columns: 38px 28px 38px;
+            /* левая и правая широкие */
+            grid-template-rows: 18px 28px 18px;
+            /* верх и низ уже (было 28px) */
+            gap: 3px;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
             -webkit-backdrop-filter: blur(5px);
-            padding: 6px;
-            border-radius: 50px;
+            padding: 4px;
+            border-radius: 40px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             pointer-events: auto;
+            place-items: center;
         }
 
-        .cross-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid white;
-            background: rgba(156, 39, 176, 0.9);
+        /* Стили для кнопок */
+        .control-cross-compact button {
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            /* немного уменьшил шрифт */
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
             color: white;
-            font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 0;
-            line-height: 1;
         }
 
-        .cross-btn:hover {
-            transform: scale(1.1);
-            background: rgba(156, 39, 176, 1);
+        .control-cross-compact button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: #ffaa00;
         }
 
-        .cross-btn:active {
-            transform: scale(0.95);
-        }
-
-        .cross-btn:disabled {
-            opacity: 0.4;
-            pointer-events: none;
+        /* Можно сделать стрелки поменьше для верхней и нижней кнопок */
+        .control-cross-compact .up,
+        .control-cross-compact .down {
+            font-size: 12px;
+            /* стрелки вверх/вниз чуть меньше */
         }
 
         .cross-btn.up {
             grid-column: 2;
             grid-row: 1;
+            /* верхний ряд */
         }
 
         .cross-btn.left {
             grid-column: 1;
             grid-row: 2;
+            /* средний ряд */
         }
 
         .cross-btn.down {
             grid-column: 2;
-            grid-row: 2;
+            grid-row: 3;
+            /* нижний ряд */
         }
 
         .cross-btn.right {
             grid-column: 3;
             grid-row: 2;
+            /* средний ряд */
         }
 
         /* Нижний ряд: кнопки алгоритмов */
-.algo-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 5px;
-    flex-wrap: wrap;
-    padding: 5px 0;
-    pointer-events: auto;
-    width: 100%;
-    max-width: 500px;
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1001;
-}
+        .algo-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            padding: 5px 0;
+            pointer-events: auto;
+            width: 100%;
+            max-width: 500px;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1001;
+        }
 
         .algo-buttons button {
             padding: 8px 8px;
@@ -315,6 +322,16 @@
             background: #2196F3;
         }
 
+        .btn-8 {
+            background: #9C27B0;
+            /* фиолетовый */
+        }
+
+        .btn-9 {
+            background: #009688;
+            /* бирюзовый */
+        }
+
         /* Скрываем старые элементы */
         .selector-container,
         .control-cross,
@@ -329,6 +346,21 @@
 
     <!-- Новая объединенная панель управления -->
     <div class="control-panel">
+        <!-- CFOP метка с этапами рядом (уменьшенная) -->
+        <div
+            style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); z-index: 1003; display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #6e48aa, #9d50bb); color: white; padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(255,215,0,0.5); backdrop-filter: blur(5px); white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
+            <span style="opacity: 0.9; font-size: 8px; font-weight: bold;">⚡ CFOP ⚡</span>
+            <span style="width: 1px; height: 12px; background: rgba(255,255,255,0.3); margin: 0 2px;"></span>
+            <div style="display: flex; gap: 4px; font-size: 7px; font-weight: bold;">
+                <span style="color: #4CAF50;">CROSS</span>
+                <span style="color: #ffaa00;">→</span>
+                <span style="color: #2196F3;">F2L</span>
+                <span style="color: #ffaa00;">→</span>
+                <span style="color: #ff4444;">OLL</span>
+                <span style="color: #ffaa00;">→</span>
+                <span style="color: #ffdd00;">PLL</span>
+            </div>
+        </div>
         <!-- Ориентация (ПЕРЕД / ВЕРХ) одной строкой -->
         <div class="orientation-bar">
             <div class="orientation-item">
@@ -365,7 +397,6 @@
                 <button class="cross-btn right" id="rotateRight" title="Повернуть вправо">→</button>
             </div>
         </div>
-
         <!-- Кнопки алгоритмов -->
         <div class="algo-buttons" id="algoButtons"></div>
     </div>
@@ -906,6 +937,31 @@
         var Rubik = OZ.Class();
         Rubik.SIZE = 3;
 
+        // Добавляем метод умножения вектора на кватернион
+        Quaternion.prototype.multiplyVector = function (v) {
+            // Преобразуем вектор в кватернион (x, y, z, 0)
+            var vecQuat = new Quaternion(v.x, v.y, v.z, 0);
+
+            // Поворот: q * v * q^-1
+            var result = this.multiply(vecQuat).multiply(this.conjugate());
+
+            // Возвращаем вектор
+            return { x: result.x, y: result.y, z: result.z };
+        }
+
+        // Добавляем метод для создания вектора из направления
+        Quaternion.prototype.fromDirection = function (face) {
+            switch (face) {
+                case 'U': return { x: 0, y: 1, z: 0 };  // Белый вверх
+                case 'D': return { x: 0, y: -1, z: 0 }; // Желтый вниз
+                case 'F': return { x: 0, y: 0, z: 1 };  // Зеленый фронт
+                case 'B': return { x: 0, y: 0, z: -1 }; // Синий тыл
+                case 'R': return { x: 1, y: 0, z: 0 };  // Красный право
+                case 'L': return { x: -1, y: 0, z: 0 }; // Оранжевый лево
+                default: return { x: 0, y: 0, z: 1 };
+            }
+        }
+
         Rubik.prototype.init = function () {
             this._cubes = [];
             this._faces = [];
@@ -931,6 +987,9 @@
             // Состояние для кнопки ЦЕНТР (переворот верх дном)
             this._centerFlipState = false;
 
+            // Инициализация системы ориентации на кватернионах
+            this._initOrientationSystem();
+
             this._rotation = Quaternion.fromRotation([1, 0, 0], 0).multiply(Quaternion.fromRotation([0, 1, 0], 0));
             this._node = OZ.DOM.elm("div", { position: "absolute", left: "50%", top: "55%", width: "0px", height: "0px" });
             document.body.appendChild(this._node);
@@ -940,6 +999,13 @@
 
             this._build();
             this._update();
+
+            // Инициализируем центры после сборки кубика
+            setTimeout(function () {
+                this._initCenterTracking();
+                this._updateOrientationFromCenters();
+            }.bind(this), 100);
+
             OZ.Event.add(document.body, "mousedown touchstart", this._dragStart.bind(this));
 
             setTimeout(this.centerToStartPosition.bind(this), 200);
@@ -951,6 +1017,491 @@
             // Инициализируем крестик управления
             this._initControlCross();
         }
+
+        // НОВЫЙ МЕТОД: Инициализация системы ориентации
+        Rubik.prototype._initOrientationSystem = function () {
+            // Начальные позиции центров в локальных координатах кубика
+            this.centerLocalPositions = {
+                'U': { x: 0, y: 1, z: 0 },  // Белый вверх
+                'D': { x: 0, y: -1, z: 0 }, // Желтый вниз
+                'F': { x: 0, y: 0, z: 1 },  // Зеленый фронт
+                'B': { x: 0, y: 0, z: -1 }, // Синий тыл
+                'R': { x: 1, y: 0, z: 0 },  // Красный право
+                'L': { x: -1, y: 0, z: 0 }  // Оранжевый лево
+            };
+
+            // Текущие мировые позиции центров (будут обновляться)
+            this.centerWorldPositions = {};
+
+            // Цвета центров для поиска
+            this.centerColors = {
+                'white': 'U',
+                'yellow': 'D',
+                'green': 'F',
+                'blue': 'B',
+                'red': 'R',
+                'orange': 'L'
+            };
+        }
+
+        // НОВЫЙ МЕТОД: Поиск и привязка к реальным центральным кубикам
+        Rubik.prototype._initCenterTracking = function () {
+            this.centerCubes = {};
+
+            // Проходим по всем кубикам и находим центры
+            for (var i = 0; i < this._cubes.length; i++) {
+                var cube = this._cubes[i];
+                var faces = cube.getFaces();
+
+                // У центрального кубика только одна грань
+                if (Object.keys(faces).length === 1) {
+                    for (var type in faces) {
+                        var color = faces[type].getColor();
+                        // Определяем, какой это центр по цвету
+                        for (var colorName in this.centerColors) {
+                            if (color === colorName) {
+                                var faceName = this.centerColors[colorName];
+                                this.centerCubes[faceName] = cube;
+
+                                // Сохраняем тип грани для этого центра
+                                this.centerCubes[faceName + '_faceType'] = parseInt(type);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Проверяем, что все центры найдены
+            var expectedCenters = ['U', 'D', 'F', 'B', 'R', 'L'];
+            for (var j = 0; j < expectedCenters.length; j++) {
+                var face = expectedCenters[j];
+                if (!this.centerCubes[face]) {
+                    console.warn('Center not found:', face);
+                }
+            }
+        }
+
+        // НОВЫЙ МЕТОД: Обновление мировых позиций центров
+        Rubik.prototype._updateCenterPositions = function () {
+            for (var face in this.centerLocalPositions) {
+                var localVec = this.centerLocalPositions[face];
+                // Поворачиваем вектор на текущую ориентацию кубика
+                this.centerWorldPositions[face] = this._rotation.multiplyVector(localVec);
+            }
+        }
+
+        // НОВЫЙ МЕТОД: Определение грани, смотрящей на наблюдателя
+        Rubik.prototype._getFaceTowardsView = function () {
+            // Вектор взгляда наблюдателя (0, 0, 1) в мировых координатах
+            var viewDir = { x: 0, y: 0, z: 1 };
+
+            var bestFace = null;
+            var bestDot = -Infinity;
+
+            for (var face in this.centerWorldPositions) {
+                var centerDir = this.centerWorldPositions[face];
+                // Скалярное произведение - чем больше, тем ближе направление
+                var dot = centerDir.x * viewDir.x + centerDir.y * viewDir.y + centerDir.z * viewDir.z;
+                if (dot > bestDot) {
+                    bestDot = dot;
+                    bestFace = face;
+                }
+            }
+
+            return bestFace;
+        }
+
+        // НОВЫЙ МЕТОД: Определение верхней грани
+        Rubik.prototype._getFaceUpwards = function () {
+            // Вектор "вверх" для наблюдателя (0, 1, 0)
+            var upDir = { x: 0, y: 1, z: 0 };
+
+            var bestFace = null;
+            var bestDot = -Infinity;
+
+            for (var face in this.centerWorldPositions) {
+                var centerDir = this.centerWorldPositions[face];
+                var dot = centerDir.x * upDir.x + centerDir.y * upDir.y + centerDir.z * upDir.z;
+                if (dot > bestDot) {
+                    bestDot = dot;
+                    bestFace = face;
+                }
+            }
+
+            return bestFace;
+        }
+
+        // НОВЫЙ МЕТОД: Обновление ориентации из реальных центров
+        Rubik.prototype._updateOrientationFromCenters = function () {
+            this._updateCenterPositions();
+
+            var actualFront = this._getFaceTowardsView();
+            var actualTop = this._getFaceUpwards();
+
+            if (actualFront && actualTop) {
+                // Обновляем внутренние переменные
+                this._currentFront = actualFront;
+                this._currentTop = actualTop;
+
+                // Обновляем кнопки интерфейса
+                this._updateSideButtonsFromFace(actualFront);
+                this._updateTopButtonsFromFace(actualTop);
+
+                // Обновляем текст
+                this._updateOrientationDisplay();
+            }
+        }
+
+        // НОВЫЙ МЕТОД: Обновление отображения ориентации
+        Rubik.prototype._updateOrientationDisplay = function () {
+            var faceNames = {
+                'F': 'Зеленая (F)',
+                'R': 'Красная (R)',
+                'B': 'Синяя (B)',
+                'L': 'Оранжевая (L)',
+                'U': 'Белая (U)',
+                'D': 'Желтая (D)'
+            };
+
+            var frontCompact = document.getElementById('currentFrontCompact');
+            var topCompact = document.getElementById('currentTopCompact');
+
+            if (frontCompact) {
+                frontCompact.textContent = faceNames[this._currentFront] || this._currentFront;
+            }
+
+            if (topCompact) {
+                topCompact.textContent = faceNames[this._currentTop] || this._currentTop;
+            }
+        }
+
+        // НОВЫЙ МЕТОД: Обновление активной кнопки стороны
+        Rubik.prototype._updateSideButtonsFromFace = function (face) {
+            var buttonId = '';
+            switch (face) {
+                case 'F': buttonId = 'btnF'; break;
+                case 'R': buttonId = 'btnR'; break;
+                case 'B': buttonId = 'btnB'; break;
+                case 'L': buttonId = 'btnL'; break;
+                default: return;
+            }
+
+            var buttons = ['btnF', 'btnR', 'btnB', 'btnL'];
+            buttons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            });
+
+            var activeBtn = document.getElementById(buttonId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // НОВЫЙ МЕТОД: Обновление активной кнопки верха
+        Rubik.prototype._updateTopButtonsFromFace = function (face) {
+            var buttonId = '';
+            switch (face) {
+                case 'U': buttonId = 'btnU'; break;
+                case 'D': buttonId = 'btnD'; break;
+                default: return;
+            }
+
+            var buttons = ['btnU', 'btnD'];
+            buttons.forEach(function (id) {
+                var btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('active');
+                }
+            });
+
+            var activeBtn = document.getElementById(buttonId);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Завершение ротации
+        Rubik.prototype._finalizeRotation = function (cubes, rotation) {
+            var direction = 0;
+            for (var i = 0; i < 3; i++) {
+                if (rotation[i]) { direction = rotation[i]; }
+            }
+
+            if (rotation[0]) { direction *= -1; }
+
+            var half = Math.floor(Rubik.SIZE / 2) - (Rubik.SIZE % 2 === 0 ? 1 / 2 : 0);
+
+            for (var i = 0; i < cubes.length; i++) {
+                var x = i % Rubik.SIZE - half;
+                var y = Math.floor(i / Rubik.SIZE) - half;
+
+                var source = [y * direction + half, -x * direction + half];
+                var sourceIndex = source[0] + Rubik.SIZE * source[1];
+
+                cubes[i].prepareColorChange(cubes[sourceIndex], rotation);
+            }
+
+            for (var i = 0; i < cubes.length; i++) { cubes[i].commitColorChange(); }
+
+            setTimeout(function () {
+                this.dispatch("rotated");
+                this._processingQueue = false;
+
+                this._currentMoveIndex++;
+                if (this._updateStatus) {
+                    this._updateStatus(this._currentMoveIndex, this._totalMoves);
+                }
+
+                // НОВОЕ: Обновляем ориентацию после поворота
+                this._updateCenterPositions();
+                this._updateOrientationFromCenters();
+
+                // Пауза между ходами
+                this._nextMoveTimer = setTimeout(function () {
+                    this._processAnimationQueue();
+                }.bind(this), ANIMATION.DELAY_BETWEEN_MOVES);
+            }.bind(this), 100);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Поворот вверх
+        Rubik.prototype.rotateUp = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вверх (вокруг оси X, отрицательный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], -90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // НОВОЕ: Обновляем ориентацию
+                    this._updateCenterPositions();
+                    this._updateOrientationFromCenters();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Поворот вниз
+        Rubik.prototype.rotateDown = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вниз (вокруг оси X, положительный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // НОВОЕ: Обновляем ориентацию
+                    this._updateCenterPositions();
+                    this._updateOrientationFromCenters();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Поворот влево
+        Rubik.prototype.rotateLeft = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот влево (вокруг оси Y, положительный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], 90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // НОВОЕ: Обновляем ориентацию
+                    this._updateCenterPositions();
+                    this._updateOrientationFromCenters();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Поворот вправо
+        Rubik.prototype.rotateRight = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION;
+
+            // Поворот вправо (вокруг оси Y, отрицательный угол)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], -90));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // НОВОЕ: Обновляем ориентацию
+                    this._updateCenterPositions();
+                    this._updateOrientationFromCenters();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Переворот верх дном
+        Rubik.prototype.flipUpsideDown = function () {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._isAnimating = true;
+            this._setButtonsEnabled(false);
+
+            var startRotation = this._rotation;
+            var startTime = performance.now();
+            var duration = ANIMATION.ROTATION_DURATION * 2;
+
+            // Переворот на 180 градусов по оси X (верх дном)
+            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 180));
+
+            var animate = function () {
+                var now = performance.now();
+                var elapsed = now - startTime;
+                var progress = Math.min(elapsed / duration, 1);
+                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+
+                this._rotation = this._slerp(startRotation, targetQuat, progress);
+                this._update();
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate.bind(this));
+                } else {
+                    this._isAnimating = false;
+                    this._setButtonsEnabled(true);
+
+                    // НОВОЕ: Обновляем ориентацию
+                    this._updateCenterPositions();
+                    this._updateOrientationFromCenters();
+                }
+            }.bind(this);
+
+            requestAnimationFrame(animate);
+        }
+
+        // ОБНОВЛЕННЫЙ МЕТОД: Центрирование
+        Rubik.prototype.centerToStartPosition = function (callback) {
+            if (this._isAnimating || this._processingQueue) {
+                setTimeout(function () {
+                    this.centerToStartPosition(callback);
+                }.bind(this), 100);
+                return;
+            }
+
+            var targetAngles = { x: -20, y: -30, z: 0 };
+
+            // Получаем текущую ориентацию из настроек
+            var targetQuat = Quaternion.fromUnit();
+
+            // Сначала поворачиваем так, чтобы нужный фронт смотрел на нас
+            var frontVec = Quaternion.prototype.fromDirection(this._currentFront);
+            // Здесь нужна более сложная математика для точного позиционирования
+
+            this._smoothRotateTo(targetAngles, function () {
+                // После завершения обновляем ориентацию
+                this._updateCenterPositions();
+                this._updateOrientationFromCenters();
+                if (callback) callback();
+            }.bind(this));
+        }
+
+        // ОСТАЛЬНЫЕ МЕТОДЫ ОСТАЮТСЯ БЕЗ ИЗМЕНЕНИЙ
+        // (_initSideButtons, _initTopButtons, _initControlCross, setFrontFace, 
+        //  setTopFace, _updateSideButtons, _updateTopButtons, setButtons, 
+        //  setStatusCallback, _setButtonsEnabled, _update, _eventToFace, 
+        //  _dragStart, _dragMove, _dragEnd, _rotate, _rotateX, _rotateY, _rotateZ, 
+        //  _rotateCubes, _build, _slerp, _smoothRotateTo, _transformMove, 
+        //  _getOppositeSide, _getRightSide, _processAnimationQueue, _addMove, 
+        //  executeAlgorithm, reset)
+        // ДОБАВИТЬ НЕДОСТАЮЩИЕ МЕТОДЫ ЗДЕСЬ
 
         Rubik.prototype._initSideButtons = function () {
             var btnF = document.getElementById('btnF');
@@ -979,9 +1530,6 @@
                 self.setFrontFace('L');
                 self._updateSideButtons('btnL');
             });
-
-            // Активируем кнопку F по умолчанию
-            btnF.classList.add('active');
         }
 
         Rubik.prototype._initTopButtons = function () {
@@ -999,36 +1547,50 @@
                 self.setTopFace('D');
                 self._updateTopButtons('btnD');
             });
-
-            // Активируем кнопку U по умолчанию
-            btnU.classList.add('active');
         }
 
-Rubik.prototype._initControlCross = function () {
-    var btnUp = document.getElementById('rotateUp');
-    var btnDown = document.getElementById('rotateDown');
-    var btnLeft = document.getElementById('rotateLeft');
-    var btnRight = document.getElementById('rotateRight');
+        Rubik.prototype._initControlCross = function () {
+            var btnUp = document.getElementById('rotateUp');
+            var btnDown = document.getElementById('rotateDown');
+            var btnLeft = document.getElementById('rotateLeft');
+            var btnRight = document.getElementById('rotateRight');
 
-    var self = this;
+            var self = this;
 
-    // Меняем все направления для взгляда снизу
-    btnUp.addEventListener('click', function () {
-        self.rotateDown();  // Вверх -> крутим вниз
-    });
+            btnUp.addEventListener('click', function () {
+                self.rotateDown();
+            });
 
-    btnDown.addEventListener('click', function () {
-        self.rotateUp();    // Вниз -> крутим вверх
-    });
+            btnDown.addEventListener('click', function () {
+                self.rotateUp();
+            });
 
-    btnLeft.addEventListener('click', function () {
-        self.rotateRight(); // Влево -> крутим вправо
-    });
+            btnLeft.addEventListener('click', function () {
+                self.rotateRight();
+            });
 
-    btnRight.addEventListener('click', function () {
-        self.rotateLeft();  // Вправо -> крутим влево
-    });
-}
+            btnRight.addEventListener('click', function () {
+                self.rotateLeft();
+            });
+        }
+
+        Rubik.prototype.setFrontFace = function (face) {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._currentFront = face;
+            this._updateOrientationDisplay();
+        }
+
+        Rubik.prototype.setTopFace = function (face) {
+            if (this._isAnimating || this._processingQueue) {
+                return;
+            }
+
+            this._currentTop = face;
+            this._updateOrientationDisplay();
+        }
 
         Rubik.prototype._updateSideButtons = function (activeId) {
             var buttons = ['btnF', 'btnR', 'btnB', 'btnL'];
@@ -1060,38 +1622,6 @@ Rubik.prototype._initControlCross = function () {
             }
         }
 
-        Rubik.prototype.setFrontFace = function (face) {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._currentFront = face;
-
-            var faceNames = {
-                'F': 'Зеленая (F)',
-                'R': 'Красная (R)',
-                'B': 'Синяя (B)',
-                'L': 'Оранжевая (L)'
-            };
-
-            document.getElementById('currentFrontCompact').textContent = faceNames[face] || face;
-        }
-
-        Rubik.prototype.setTopFace = function (face) {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._currentTop = face;
-
-            var topNames = {
-                'U': 'Белая (U)',
-                'D': 'Желтая (D)'
-            };
-
-            document.getElementById('currentTopCompact').textContent = topNames[face] || face;
-        }
-
         Rubik.prototype.setButtons = function (buttons) {
             this._buttons = buttons;
         }
@@ -1105,7 +1635,6 @@ Rubik.prototype._initControlCross = function () {
                 this._buttons[i].disabled = !enabled;
             }
 
-            // Также отключаем/включаем кнопки крестика
             var crossButtons = ['rotateUp', 'rotateDown', 'rotateLeft', 'rotateRight'];
             crossButtons.forEach(function (id) {
                 var btn = document.getElementById(id);
@@ -1114,7 +1643,6 @@ Rubik.prototype._initControlCross = function () {
                 }
             });
 
-            // Отключаем/включаем кнопки выбора сторон
             var sideButtons = ['btnF', 'btnR', 'btnB', 'btnL', 'btnU', 'btnD'];
             sideButtons.forEach(function (id) {
                 var btn = document.getElementById(id);
@@ -1186,6 +1714,10 @@ Rubik.prototype._initControlCross = function () {
 
         Rubik.prototype._dragEnd = function (e) {
             while (this._drag.ec.length) { OZ.Event.remove(this._drag.ec.pop()); }
+
+            // Обновляем ориентацию после drag
+            this._updateCenterPositions();
+            this._updateOrientationFromCenters();
         }
 
         Rubik.prototype._rotate = function (face1, face2) {
@@ -1254,7 +1786,6 @@ Rubik.prototype._initControlCross = function () {
             }
         }
 
-        // Методы поворота слоев
         Rubik.prototype._rotateX = function (dir, layer) {
             var cubes = [];
             for (var i = 0; i < Rubik.SIZE * Rubik.SIZE; i++) {
@@ -1304,44 +1835,6 @@ Rubik.prototype._initControlCross = function () {
             }
         }
 
-        Rubik.prototype._finalizeRotation = function (cubes, rotation) {
-            var direction = 0;
-            for (var i = 0; i < 3; i++) {
-                if (rotation[i]) { direction = rotation[i]; }
-            }
-
-            if (rotation[0]) { direction *= -1; }
-
-            var half = Math.floor(Rubik.SIZE / 2) - (Rubik.SIZE % 2 === 0 ? 1 / 2 : 0);
-
-            for (var i = 0; i < cubes.length; i++) {
-                var x = i % Rubik.SIZE - half;
-                var y = Math.floor(i / Rubik.SIZE) - half;
-
-                var source = [y * direction + half, -x * direction + half];
-                var sourceIndex = source[0] + Rubik.SIZE * source[1];
-
-                cubes[i].prepareColorChange(cubes[sourceIndex], rotation);
-            }
-
-            for (var i = 0; i < cubes.length; i++) { cubes[i].commitColorChange(); }
-
-            setTimeout(function () {
-                this.dispatch("rotated");
-                this._processingQueue = false;
-
-                this._currentMoveIndex++;
-                if (this._updateStatus) {
-                    this._updateStatus(this._currentMoveIndex, this._totalMoves);
-                }
-
-                // Пауза между ходами
-                this._nextMoveTimer = setTimeout(function () {
-                    this._processAnimationQueue();
-                }.bind(this), ANIMATION.DELAY_BETWEEN_MOVES);
-            }.bind(this), 100);
-        }
-
         Rubik.prototype._build = function () {
             for (var z = 0; z < Rubik.SIZE; z++) {
                 for (var y = 0; y < Rubik.SIZE; y++) {
@@ -1349,32 +1842,19 @@ Rubik.prototype._initControlCross = function () {
                         var cube = new Cube([x, y, z]);
                         this._cubes.push(cube);
 
-                        // Стандарт WCA: белый верх (U), зеленый фронт (F)
-                        if (z == 0) { cube.setFace(Face.FRONT, "green"); }     // F - зеленый
-                        if (z == 2) { cube.setFace(Face.BACK, "blue"); }       // B - синий
+                        if (z == 0) { cube.setFace(Face.FRONT, "green"); }
+                        if (z == 2) { cube.setFace(Face.BACK, "blue"); }
 
-                        if (x == 0) { cube.setFace(Face.LEFT, "orange"); }     // L - оранжевый
-                        if (x == 2) { cube.setFace(Face.RIGHT, "red"); }       // R - красный
+                        if (x == 0) { cube.setFace(Face.LEFT, "orange"); }
+                        if (x == 2) { cube.setFace(Face.RIGHT, "red"); }
 
-                        if (y == 0) { cube.setFace(Face.TOP, "white"); }       // U - белый
-                        if (y == 2) { cube.setFace(Face.BOTTOM, "yellow"); }   // D - желтый
+                        if (y == 0) { cube.setFace(Face.TOP, "white"); }
+                        if (y == 2) { cube.setFace(Face.BOTTOM, "yellow"); }
 
                         this._node.appendChild(cube.getNode());
                     }
                 }
             }
-        }
-
-        Rubik.prototype.centerToStartPosition = function (callback) {
-            if (this._isAnimating || this._processingQueue) {
-                setTimeout(function () {
-                    this.centerToStartPosition(callback);
-                }.bind(this), 100);
-                return;
-            }
-
-            var targetAngles = { x: -20, y: -30, z: 0 };
-            this._smoothRotateTo(targetAngles, callback);
         }
 
         Rubik.prototype._slerp = function (q1, q2, t) {
@@ -1443,229 +1923,26 @@ Rubik.prototype._initControlCross = function () {
             requestAnimationFrame(animate);
         }
 
-        // Методы поворота всего кубика с помощью крестика
-        Rubik.prototype.rotateUp = function () {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._isAnimating = true;
-            this._setButtonsEnabled(false);
-
-            var startRotation = this._rotation;
-            var startTime = performance.now();
-            var duration = ANIMATION.ROTATION_DURATION;
-
-            // Поворот вверх (вокруг оси X, отрицательный угол)
-            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], -90));
-
-            var animate = function () {
-                var now = performance.now();
-                var elapsed = now - startTime;
-                var progress = Math.min(elapsed / duration, 1);
-                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-
-                this._rotation = this._slerp(startRotation, targetQuat, progress);
-                this._update();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate.bind(this));
-                } else {
-                    this._isAnimating = false;
-                    this._setButtonsEnabled(true);
-                }
-            }.bind(this);
-
-            requestAnimationFrame(animate);
-        }
-
-        Rubik.prototype.rotateDown = function () {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._isAnimating = true;
-            this._setButtonsEnabled(false);
-
-            var startRotation = this._rotation;
-            var startTime = performance.now();
-            var duration = ANIMATION.ROTATION_DURATION;
-
-            // Поворот вниз (вокруг оси X, положительный угол)
-            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 90));
-
-            var animate = function () {
-                var now = performance.now();
-                var elapsed = now - startTime;
-                var progress = Math.min(elapsed / duration, 1);
-                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-
-                this._rotation = this._slerp(startRotation, targetQuat, progress);
-                this._update();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate.bind(this));
-                } else {
-                    this._isAnimating = false;
-                    this._setButtonsEnabled(true);
-                }
-            }.bind(this);
-
-            requestAnimationFrame(animate);
-        }
-
-        Rubik.prototype.rotateLeft = function () {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._isAnimating = true;
-            this._setButtonsEnabled(false);
-
-            var startRotation = this._rotation;
-            var startTime = performance.now();
-            var duration = ANIMATION.ROTATION_DURATION;
-
-            // Поворот влево (вокруг оси Y, положительный угол)
-            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], 90));
-
-            var animate = function () {
-                var now = performance.now();
-                var elapsed = now - startTime;
-                var progress = Math.min(elapsed / duration, 1);
-                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-
-                this._rotation = this._slerp(startRotation, targetQuat, progress);
-                this._update();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate.bind(this));
-                } else {
-                    this._isAnimating = false;
-                    this._setButtonsEnabled(true);
-                }
-            }.bind(this);
-
-            requestAnimationFrame(animate);
-        }
-
-        Rubik.prototype.rotateRight = function () {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._isAnimating = true;
-            this._setButtonsEnabled(false);
-
-            var startRotation = this._rotation;
-            var startTime = performance.now();
-            var duration = ANIMATION.ROTATION_DURATION;
-
-            // Поворот вправо (вокруг оси Y, отрицательный угол)
-            var targetQuat = startRotation.multiply(Quaternion.fromRotation([0, 1, 0], -90));
-
-            var animate = function () {
-                var now = performance.now();
-                var elapsed = now - startTime;
-                var progress = Math.min(elapsed / duration, 1);
-                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-
-                this._rotation = this._slerp(startRotation, targetQuat, progress);
-                this._update();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate.bind(this));
-                } else {
-                    this._isAnimating = false;
-                    this._setButtonsEnabled(true);
-                }
-            }.bind(this);
-
-            requestAnimationFrame(animate);
-        }
-
-        // Функция для переворота кубика верх дном
-        Rubik.prototype.flipUpsideDown = function () {
-            if (this._isAnimating || this._processingQueue) {
-                return;
-            }
-
-            this._isAnimating = true;
-            this._setButtonsEnabled(false);
-
-            var startRotation = this._rotation;
-            var startTime = performance.now();
-            var duration = ANIMATION.ROTATION_DURATION * 2;
-
-            // Переворот на 180 градусов по оси X (верх дном)
-            var targetQuat = startRotation.multiply(Quaternion.fromRotation([1, 0, 0], 180));
-
-            var animate = function () {
-                var now = performance.now();
-                var elapsed = now - startTime;
-                var progress = Math.min(elapsed / duration, 1);
-                progress = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-
-                this._rotation = this._slerp(startRotation, targetQuat, progress);
-                this._update();
-
-                if (progress < 1) {
-                    requestAnimationFrame(animate.bind(this));
-                } else {
-                    this._isAnimating = false;
-                    this._setButtonsEnabled(true);
-
-                    // Обновляем маппинг сторон при перевороте
-                    this._updateMappingForFlip();
-                }
-            }.bind(this);
-
-            requestAnimationFrame(animate);
-        }
-
-        // Обновление маппинга сторон после переворота
-        Rubik.prototype._updateMappingForFlip = function () {
-            // Переключаем состояние
-            this._centerFlipState = !this._centerFlipState;
-
-            var faceNames = {
-                'F': 'Зеленая (F)',
-                'R': 'Красная (R)',
-                'B': 'Синяя (B)',
-                'L': 'Оранжевая (L)'
-            };
-
-            var topNames = {
-                'U': 'Белая (U)',
-                'D': 'Желтая (D)'
-            };
-
-            // Обновляем отображение текущих сторон
-            document.getElementById('currentFrontCompact').textContent = faceNames[this._currentFront] || this._currentFront;
-            document.getElementById('currentTopCompact').textContent = topNames[this._currentTop] || this._currentTop;
-        }
-
-        // Преобразование хода с учетом текущей ориентации
         Rubik.prototype._transformMove = function (move) {
             var face = move[0];
             var suffix = move.length > 1 ? move[1] : '';
 
-            // Получаем текущую ориентацию
-            var currentFront = this._currentFront;
-            var currentTop = this._currentTop;
+            // Получаем реальную ориентацию из центров
+            var actualFront = this._currentFront;
+            var actualTop = this._currentTop;
 
             // Создаем объект для хранения текущего положения каждой стандартной стороны
             var currentPosition = {};
 
             // Начинаем с известных: front и top
-            currentPosition[currentFront] = 'F';
-            currentPosition[this._getOppositeSide(currentFront)] = 'B';
+            currentPosition[actualFront] = 'F';
+            currentPosition[this._getOppositeSide(actualFront)] = 'B';
 
-            currentPosition[currentTop] = 'U';
-            currentPosition[this._getOppositeSide(currentTop)] = 'D';
+            currentPosition[actualTop] = 'U';
+            currentPosition[this._getOppositeSide(actualTop)] = 'D';
 
             // Определяем правую сторону на основе front и top
-            var rightSide = this._getRightSide(currentFront, currentTop);
+            var rightSide = this._getRightSide(actualFront, actualTop);
             currentPosition[rightSide] = 'R';
             currentPosition[this._getOppositeSide(rightSide)] = 'L';
 
@@ -1684,7 +1961,6 @@ Rubik.prototype._initControlCross = function () {
             return face + suffix;
         }
 
-        // Получить противоположную сторону
         Rubik.prototype._getOppositeSide = function (side) {
             var opposites = {
                 'F': 'B',
@@ -1697,7 +1973,6 @@ Rubik.prototype._initControlCross = function () {
             return opposites[side] || side;
         }
 
-        // Определить правую сторону на основе передней и верхней
         Rubik.prototype._getRightSide = function (front, top) {
             if (top === 'U') {
                 if (front === 'F') return 'R';
@@ -1802,7 +2077,6 @@ Rubik.prototype._initControlCross = function () {
                 return;
             }
 
-            // Очищаем предыдущие таймеры
             if (this._nextMoveTimer) {
                 clearTimeout(this._nextMoveTimer);
                 this._nextMoveTimer = null;
@@ -1814,7 +2088,7 @@ Rubik.prototype._initControlCross = function () {
 
             switch (algorithm) {
                 case 'ALGO_1':
-                    moves = ['R', 'U', "R'", "U'"];
+                    moves = ['U', 'R', "U'", "R'"];  // Изменено на U R U' R'
                     break;
                 case 'ALGO_6':
                     moves = ["R'", 'D', 'R', "D'"];
@@ -1830,6 +2104,13 @@ Rubik.prototype._initControlCross = function () {
                     break;
                 case 'ALGO_5':
                     moves = ['U', 'R', "U'", "L'", 'U', "R'", "U'", 'L'];
+                    break;
+                // НОВЫЕ АЛГОРИТМЫ ДЛЯ F2L
+                case 'F2L_RIGHT':
+                    moves = ['U', 'R', 'U', "R'", 'F', 'R', "F'", 'R'];
+                    break;
+                case 'F2L_LEFT':
+                    moves = ['U', 'L', 'U', 'L', 'F', 'L', "F'", 'L']; // TODO: проверить
                     break;
                 case 'CENTER':
                     if (!this._centerFlipState) {
@@ -1857,7 +2138,6 @@ Rubik.prototype._initControlCross = function () {
         Rubik.prototype.reset = function () {
             location.reload();
         }
-
         // Инициализация
         document.addEventListener('DOMContentLoaded', function () {
             window.rubikInstance = new Rubik();
@@ -1866,19 +2146,45 @@ Rubik.prototype._initControlCross = function () {
 
             var buttons = [];
 
-            // Создание кнопок алгоритмов
+            // Создание кнопок алгоритмов с новым расположением
+            var buttons = [];
+
+            // Верхний ряд
+            var row1 = document.createElement('div');
+            row1.style.display = 'flex';
+            row1.style.justifyContent = 'center';
+            row1.style.gap = '5px';
+            row1.style.width = '100%';
+            row1.style.marginBottom = '5px';
+
+            // Левый блок (U R U' R')
             var btn1 = document.createElement('button');
             btn1.className = 'btn-1';
-            btn1.textContent = 'R U R\' U\'';
-            btn1.title = 'Верхний пиф-паф';
+            btn1.textContent = 'U R U\' R\'';  // Изменено название
+            btn1.title = 'Пиф-паф (U R U\' R\')';
             btn1.onclick = function () {
                 if (window.rubikInstance) {
-                    window.rubikInstance.executeAlgorithm('ALGO_1');
+                    window.rubikInstance.executeAlgorithm('ALGO_1');  // Вызов остается ALGO_1
                 }
             };
-            algoButtonsContainer.appendChild(btn1);
+            row1.appendChild(btn1);
             buttons.push(btn1);
 
+            // Центральный блок (ЦЕНТР)
+            var btn6 = document.createElement('button');
+            btn6.className = 'btn-6';
+            btn6.textContent = 'ЦЕНТР';
+            btn6.title = 'Центрировать / Перевернуть верх дном';
+            btn6.style.margin = '0 5px';
+            btn6.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('CENTER');
+                }
+            };
+            row1.appendChild(btn6);
+            buttons.push(btn6);
+
+            // Правый блок (R' D R D')
             var btn1b = document.createElement('button');
             btn1b.className = 'btn-1';
             btn1b.textContent = 'R\' D R D\'';
@@ -1888,80 +2194,126 @@ Rubik.prototype._initControlCross = function () {
                     window.rubikInstance.executeAlgorithm('ALGO_6');
                 }
             };
-            algoButtonsContainer.appendChild(btn1b);
+            row1.appendChild(btn1b);
             buttons.push(btn1b);
 
+            algoButtonsContainer.appendChild(row1);
+
+            // Второй ряд
+            var row2 = document.createElement('div');
+            row2.style.display = 'flex';
+            row2.style.justifyContent = 'center';
+            row2.style.gap = '5px';
+            row2.style.width = '100%';
+            row2.style.marginBottom = '5px';
+
+            // Левый блок (U R U' R' U' F' U F)
             var btn2 = document.createElement('button');
             btn2.className = 'btn-2';
             btn2.textContent = 'U R U\' R\' U\' F\' U F';
             btn2.title = 'Вставка ребра';
+            btn2.style.fontSize = '9px';
             btn2.onclick = function () {
                 if (window.rubikInstance) {
                     window.rubikInstance.executeAlgorithm('ALGO_2');
                 }
             };
-            algoButtonsContainer.appendChild(btn2);
+            row2.appendChild(btn2);
             buttons.push(btn2);
 
+            // Левый центр (F2L L)
+            var btn9 = document.createElement('button');
+            btn9.className = 'btn-9';
+            btn9.textContent = 'F2L L';
+            btn9.title = 'Вставка пары слева';
+            btn9.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('F2L_LEFT');
+                }
+            };
+            row2.appendChild(btn9);
+            buttons.push(btn9);
+
+            // Правый центр (F2L R)
+            var btn8 = document.createElement('button');
+            btn8.className = 'btn-8';
+            btn8.textContent = 'F2L R';
+            btn8.title = 'Вставка пары справа';
+            btn8.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('F2L_RIGHT');
+                }
+            };
+            row2.appendChild(btn8);
+            buttons.push(btn8);
+
+            // Правый блок (F R U R' U' F')
             var btn3 = document.createElement('button');
             btn3.className = 'btn-3';
             btn3.textContent = 'F R U R\' U\' F\'';
             btn3.title = 'Крест OLL';
+            btn3.style.fontSize = '9px';
             btn3.onclick = function () {
                 if (window.rubikInstance) {
                     window.rubikInstance.executeAlgorithm('ALGO_3');
                 }
             };
-            algoButtonsContainer.appendChild(btn3);
+            row2.appendChild(btn3);
             buttons.push(btn3);
 
+            algoButtonsContainer.appendChild(row2);
+
+            // Третий ряд
+            var row3 = document.createElement('div');
+            row3.style.display = 'flex';
+            row3.style.justifyContent = 'center';
+            row3.style.gap = '5px';
+            row3.style.width = '100%';
+
+            // Левый блок (R U R' U R U2 R')
             var btn4 = document.createElement('button');
             btn4.className = 'btn-4';
             btn4.textContent = 'R U R\' U R U2 R\'';
             btn4.title = 'Sune OLL';
+            btn4.style.fontSize = '9px';
             btn4.onclick = function () {
                 if (window.rubikInstance) {
                     window.rubikInstance.executeAlgorithm('ALGO_4');
                 }
             };
-            algoButtonsContainer.appendChild(btn4);
+            row3.appendChild(btn4);
             buttons.push(btn4);
 
-            var btn5 = document.createElement('button');
-            btn5.className = 'btn-5';
-            btn5.textContent = 'U R U\' L\' U R\' U\' L';
-            btn5.title = 'Перестановка углов';
-            btn5.onclick = function () {
-                if (window.rubikInstance) {
-                    window.rubikInstance.executeAlgorithm('ALGO_5');
-                }
-            };
-            algoButtonsContainer.appendChild(btn5);
-            buttons.push(btn5);
-
-            var btn6 = document.createElement('button');
-            btn6.className = 'btn-6';
-            btn6.textContent = 'ЦЕНТР';
-            btn6.title = 'Центрировать / Перевернуть верх дном';
-            btn6.onclick = function () {
-                if (window.rubikInstance) {
-                    window.rubikInstance.executeAlgorithm('CENTER');
-                }
-            };
-            algoButtonsContainer.appendChild(btn6);
-            buttons.push(btn6);
-
+            // Центр (СБРОС)
             var btn7 = document.createElement('button');
             btn7.className = 'btn-7';
             btn7.textContent = 'СБРОС';
             btn7.title = 'Перезагрузить кубик';
+            btn7.style.margin = '0 5px';
             btn7.onclick = function () {
                 if (window.rubikInstance) {
                     window.rubikInstance.executeAlgorithm('RESET');
                 }
             };
-            algoButtonsContainer.appendChild(btn7);
+            row3.appendChild(btn7);
             buttons.push(btn7);
+
+            // Правый блок (U R U' L' U R' U' L)
+            var btn5 = document.createElement('button');
+            btn5.className = 'btn-5';
+            btn5.textContent = 'U R U\' L\' U R\' U\' L';
+            btn5.title = 'Перестановка углов';
+            btn5.style.fontSize = '9px';
+            btn5.onclick = function () {
+                if (window.rubikInstance) {
+                    window.rubikInstance.executeAlgorithm('ALGO_5');
+                }
+            };
+            row3.appendChild(btn5);
+            buttons.push(btn5);
+
+            algoButtonsContainer.appendChild(row3);
+
 
             // Передаем кнопки в экземпляр Rubik
             window.rubikInstance.setButtons(buttons);
