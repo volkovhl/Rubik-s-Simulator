@@ -1572,6 +1572,8 @@
             let moves = [];
 
             switch (algorithm) {
+
+                case 'SHUFFLE': moves = this._generateShuffle(15); break;  //15 случайных ходов перемешивания
                 case 'ALGO_RURU': moves = ['R', 'U', "R'", "U'"]; break;
                 case 'ALGO_1': moves = ['U', 'R', "U'", "R'"]; break;
                 case 'ALGO_6': moves = ["R'", 'D', 'R', "D'"]; break;
@@ -1602,7 +1604,27 @@
         Rubik.prototype.reset = function () {
             location.reload();
         }
+        /**
+         * Генерация случайной последовательности ходов (перемешивание)
+         * @param {number} count - количество ходов
+         * @returns {string[]} массив ходов
+         */
+        Rubik.prototype._generateShuffle = function (count = 15) {
+            const moves = ['R', 'L', 'U', 'D', 'F', 'B'];
+            const modifiers = ['', "'", '2'];
+            const shuffle = [];
 
+            for (let i = 0; i < count; i++) {
+                let move;
+                do {
+                    move = moves[Math.floor(Math.random() * moves.length)];
+                } while (i > 0 && shuffle[i - 1][0] === move); // Избегаем повторов одной и той же грани
+                const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
+                shuffle.push(move + modifier);
+            }
+
+            return shuffle;
+        }
         /**
          * ИНИЦИАЛИЗАЦИЯ ИНТЕРФЕЙСА
          */
@@ -1982,6 +2004,9 @@
             btnCenter.className = 'btn-6';
             btnCenter.textContent = 'ЦЕНТР';
             btnCenter.title = 'Центрировать куб';
+            btnCenter.style.background = '#ffffff';
+            btnCenter.style.color = '#333333';
+            btnCenter.style.textShadow = 'none';
             btnCenter.onclick = () => window.rubikInstance.executeAlgorithm('CENTER');
             row1.appendChild(btnCenter);
             buttons.push(btnCenter);
@@ -1995,9 +2020,9 @@
             row1.appendChild(btnBottom);
             buttons.push(btnBottom);
 
-            // Новая кнопка R' D2 R U
+            // Кнопка R' D2 R U
             const btnNew = document.createElement('button');
-            btnNew.className = 'btn-3'; // можно выбрать другой класс для цвета
+            btnNew.className = 'btn-3';
             btnNew.textContent = 'R\' D2 R U';
             btnNew.title = 'Алгоритм R\' D2 R U';
             btnNew.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RD2RU');
@@ -2032,6 +2057,18 @@
             btnF2LL.onclick = () => window.rubikInstance.executeAlgorithm('F2L_LEFT');
             row2.appendChild(btnF2LL);
             buttons.push(btnF2LL);
+
+            // Кнопка ПЕРЕМЕШАТЬ (серая)
+            const btnShuffle = document.createElement('button');
+            btnShuffle.className = 'btn-1'; // базовый класс для отступов и рамки
+            btnShuffle.textContent = 'ПЕРЕМЕШАТЬ';
+            btnShuffle.title = 'Случайная скрамбл-последовательность';
+            btnShuffle.style.background = '#9e9e9e';  // белый фон
+            btnShuffle.style.color = '#333333';       // темный текст
+            btnShuffle.style.textShadow = 'none';     // убираем тень
+            btnShuffle.onclick = () => window.rubikInstance.executeAlgorithm('SHUFFLE');
+            row2.appendChild(btnShuffle);
+            buttons.push(btnShuffle);
 
             // Кнопка F2L R
             const btnF2LR = document.createElement('button');
@@ -2075,6 +2112,9 @@
             const btnReset = document.createElement('button');
             btnReset.className = 'btn-7';
             btnReset.textContent = 'СБРОС';
+            btnReset.style.background = '#ff4444';
+            btnReset.style.color = '#333333';
+            btnReset.style.textShadow = 'none';
             btnReset.title = 'Перезагрузить кубик';
             btnReset.onclick = () => window.rubikInstance.executeAlgorithm('RESET');
             row3.appendChild(btnReset);
