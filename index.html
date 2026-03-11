@@ -1575,6 +1575,7 @@
                 case 'ALGO_RURU': moves = ['R', 'U', "R'", "U'"]; break;
                 case 'ALGO_1': moves = ['U', 'R', "U'", "R'"]; break;
                 case 'ALGO_6': moves = ["R'", 'D', 'R', "D'"]; break;
+                case 'ALGO_RD2RU': moves = ["R'", 'D2', 'R', 'U']; break;
                 case 'ALGO_2': moves = ['U', 'R', "U'", "R'", "U'", "F'", 'U', 'F']; break;
                 case 'ALGO_3': moves = ['F', 'R', 'U', "R'", "U'", "F'"]; break;
                 case 'ALGO_4': moves = ['R', 'U', "R'", 'U', 'R', 'U2', "R'"]; break;
@@ -1993,6 +1994,15 @@
             btnBottom.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_6');
             row1.appendChild(btnBottom);
             buttons.push(btnBottom);
+
+            // Новая кнопка R' D2 R U
+            const btnNew = document.createElement('button');
+            btnNew.className = 'btn-3'; // можно выбрать другой класс для цвета
+            btnNew.textContent = 'R\' D2 R U';
+            btnNew.title = 'Алгоритм R\' D2 R U';
+            btnNew.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RD2RU');
+            row1.appendChild(btnNew);
+            buttons.push(btnNew);
 
             algoButtonsContainer.appendChild(row1);
 
