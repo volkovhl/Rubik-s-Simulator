@@ -7,7 +7,7 @@
 [![GitHub stars](https://img.shields.io/github/stars/volkovhl/Rubik-s-Simulator?style=for-the-badge)](https://github.com/volkovhl/Rubik-s-Simulator/stargazers)
 [![GitHub license](https://img.shields.io/github/license/volkovhl/Rubik-s-Simulator?style=for-the-badge)](https://github.com/volkovhl/Rubik-s-Simulator/blob/main/LICENSE)
 
-Интерактивный 3D симулятор кубика Рубика с правильным маппингом алгоритмов. Оптимизирован для смартфонов и тренировок спидкуберов.
+
 
 ---
 
