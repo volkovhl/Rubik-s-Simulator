@@ -61,11 +61,3 @@
 - Полный маппинг всех 24 ориентаций кубика
 - Размер кубика: 3×3×3
 
-## 🚀 Быстрый старт
-
-Склонируйте репозиторий и откройте `index.html` в браузере:
-
-```bash
-git clone https://github.com/volkovhl/Rubik-s-Simulator.git
-cd Rubik-s-Simulator
-# Просто откройте index.html в браузере
