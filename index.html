@@ -21,6 +21,10 @@
     <meta name="twitter:title" content="Rubik's Simulator">
     <meta name="twitter:description" content="3D симулятор кубика Рубика с алгоритмами.">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA8UlEQVR4Ae3WAQYCQRQF0CYoRSnaRCk2UYq2EaVoE6XYRClKKVq0h67pmJqZ5/z4z8z1Fg/z5j8i2sQmNrGJ/8aycYqXeI2LfMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMZ7fMYB+AAuJN7EJjaxiU38A56IxQQgA0tIAAAAAElFTkSuQmCC">
+
     <!-- YouTube ссылка (добавьте позже, когда создадите канал) -->
     <!-- <link rel="me" href="https://www.youtube.com/@Pavel_Volkov"> -->
 
@@ -33,7 +37,11 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            background-color: #1a1a1a;
+            background-image: url('Rubiks fon.webp');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-attachment: fixed;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
@@ -228,6 +236,75 @@
             grid-row: 2;
         }
 
+        .control-cross-compact a {
+            grid-column: 2;
+            grid-row: 2;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .control-cross-compact .cross-btn.center {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border: 2px solid white;
+            width: 100%;
+            height: 100%;
+            max-width: 28px;
+            max-height: 28px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-size: 9px;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+            line-height: 1;
+        }
+
+        .control-cross-compact .cross-btn.center:hover {
+            transform: scale(1.05);
+            border-color: #ffaa00;
+            box-shadow: 0 0 15px #ff0000;
+        }
+
+        /* Адаптация для мобильных */
+        @media (max-width: 768px) {
+            .control-cross-compact .cross-btn.center {
+                max-width: 24px;
+                max-height: 24px;
+                font-size: 8px;
+                border-width: 1.5px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 500px) {
+            .control-cross-compact .cross-btn.center {
+                max-width: 22px;
+                max-height: 22px;
+                font-size: 7px;
+                border-width: 1.5px;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 400px) {
+            .control-cross-compact .cross-btn.center {
+                max-width: 20px;
+                max-height: 20px;
+                font-size: 6px;
+                border-width: 1px;
+            }
+        }
+
         /* Кнопки алгоритмов */
         .algo-buttons {
             display: flex;
@@ -273,6 +350,39 @@
             box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
         }
 
+        .algo-buttons {
+            gap: 3px;
+            /* уменьшить вертикальный отступ между строками */
+        }
+
+        /* Стрелки для навигации */
+        .btn-arrow {
+            background: #4a4a4a !important;
+            border-radius: 50% !important;
+            width: 32px !important;
+            height: 32px !important;
+            padding: 0 !important;
+            font-size: 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            border: 2px solid #ffaa00 !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            transition: all 0.2s !important;
+            min-width: 32px !important;
+            flex: 0 0 auto !important;
+        }
+
+        .btn-arrow:hover {
+            transform: scale(1.1) !important;
+            border-color: #ffffff !important;
+            box-shadow: 0 0 15px #ffaa00 !important;
+        }
+
+        .btn-arrow:active {
+            transform: scale(0.95) !important;
+        }
+
         /* Цвета кнопок алгоритмов */
         .btn-1 {
             background: #ffffff;
@@ -315,29 +425,243 @@
         .btn-9 {
             background: #009688;
         }
+
+        /* ===== АДАПТИВНЫЙ ДИЗАЙН ДЛЯ МОБИЛЬНЫХ ===== */
+
+        /* Вертикальная ориентация (по умолчанию) */
+        @media (max-width: 768px) {
+            .control-panel {
+                bottom: 480px;
+            }
+
+            .orientation-bar {
+                font-size: 11px;
+                padding: 4px 12px;
+                gap: 10px;
+            }
+
+            .side-selector-compact {
+                padding: 4px 8px;
+            }
+
+            .side-btn {
+                width: 24px;
+                height: 24px;
+            }
+
+            .control-cross-compact {
+                grid-template-columns: 34px 24px 34px;
+                grid-template-rows: 16px 24px 16px;
+            }
+
+            .algo-buttons button {
+                font-size: 9px;
+                padding: 6px 4px;
+                min-width: 45px;
+            }
+
+            .btn-arrow {
+                width: 28px !important;
+                height: 28px !important;
+                min-width: 28px !important;
+                font-size: 16px !important;
+            }
+        }
+
+        /* Горизонтальная ориентация (ландшафтный режим) */
+        @media (orientation: landscape) and (max-height: 500px) {
+
+            /* Скрываем плашку CFOP в ландшафте */
+            #cfopBadge {
+                display: none !important;
+            }
+
+            /* Скрываем верхнюю панель с ориентацией (ПЕРЕД и ВЕРХ) */
+            .orientation-bar {
+                display: none !important;
+            }
+
+            /* Оставляем только кнопки управления */
+            .control-panel {
+                bottom: auto;
+                top: 5px;
+                flex-direction: row;
+                justify-content: center;
+                padding: 0 5px;
+                gap: 5px;
+            }
+
+            .action-row {
+                order: 1;
+                gap: 5px;
+                margin: 0 auto;
+            }
+
+            .side-selector-compact {
+                padding: 3px 6px;
+            }
+
+            .side-btn {
+                width: 22px;
+                height: 22px;
+            }
+
+            .control-cross-compact {
+                grid-template-columns: 28px 20px 28px;
+                grid-template-rows: 14px 20px 14px;
+            }
+
+            .algo-buttons {
+                bottom: 5px;
+                gap: 3px;
+                max-width: 90%;
+            }
+
+            .algo-buttons button {
+                font-size: 8px;
+                padding: 4px 3px;
+                min-width: 40px;
+            }
+
+            .btn-arrow {
+                width: 24px !important;
+                height: 24px !important;
+                min-width: 24px !important;
+                font-size: 14px !important;
+            }
+        }
+
+        /* Для очень маленьких экранов в ландшафте */
+        @media (orientation: landscape) and (max-height: 400px) {
+
+            /* Скрываем плашку CFOP */
+            #cfopBadge {
+                display: none !important;
+            }
+
+            /* Скрываем верхнюю панель с ориентацией */
+            .orientation-bar {
+                display: none !important;
+            }
+
+            .control-panel {
+                top: 2px;
+            }
+
+            .side-btn {
+                width: 20px;
+                height: 20px;
+            }
+
+            .side-selector-compact .label {
+                font-size: 9px;
+            }
+
+            .algo-buttons {
+                bottom: 2px;
+            }
+
+            .algo-buttons button {
+                font-size: 7px;
+                padding: 3px 2px;
+                min-width: 35px;
+            }
+
+            .btn-arrow {
+                width: 22px !important;
+                height: 22px !important;
+                min-width: 22px !important;
+                font-size: 12px !important;
+            }
+        }
+
+        /* Планшеты в ландшафте */
+        @media (orientation: landscape) and (min-width: 1024px) {
+
+            /* Скрываем панели на планшетах для лучшего обзора */
+            #cfopBadge {
+                display: none !important;
+            }
+
+            .orientation-bar {
+                display: none !important;
+            }
+
+            .control-panel {
+                bottom: auto;
+                top: 20px;
+            }
+
+            .algo-buttons {
+                bottom: 20px;
+                max-width: 800px;
+            }
+
+            .algo-buttons button {
+                font-size: 12px;
+                padding: 10px 12px;
+                min-width: 70px;
+            }
+        }
+
+        /* МАКСИМАЛЬНОЕ ОСВОБОЖДЕНИЕ ЭКРАНА В ЛАНДШАФТЕ */
+        @media (orientation: landscape) and (max-height: 600px) {
+
+            /* Скрываем всё, что вверху */
+            div[style*="position: absolute; top: 10px;"] {
+                display: none !important;
+            }
+
+            .orientation-bar {
+                display: none !important;
+            }
+
+            .side-selector-compact .label {
+                display: none !important;
+            }
+
+            /* Панель управления в самый верх */
+            .control-panel {
+                bottom: auto !important;
+                top: 2px !important;
+                transform: scale(0.85);
+            }
+
+            /* Кнопки алгоритмов в самый низ */
+            .algo-buttons {
+                bottom: 2px !important;
+            }
+
+            /* Делаем все кнопки меньше */
+            .side-btn {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            .control-cross-compact {
+                transform: scale(0.8);
+            }
+
+            .algo-buttons button {
+                font-size: 7px !important;
+                padding: 3px 2px !important;
+                min-width: 32px !important;
+            }
+
+            .btn-arrow {
+                width: 22px !important;
+                height: 22px !important;
+                min-width: 22px !important;
+                font-size: 12px !important;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Плашка CFOP -->
-    <div
-        style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 1003; display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #6e48aa, #9d50bb); color: white; padding: 4px 12px; border-radius: 20px; border: 1px solid rgba(255,215,0,0.5); backdrop-filter: blur(5px); white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.5);">
-        <span style="opacity: 0.9; font-size: 10px; font-weight: bold;">⚡ CFOP ⚡</span>
-        <span style="width: 1px; height: 12px; background: rgba(255,255,255,0.3); margin: 0 2px;"></span>
-        <div style="display: flex; gap: 4px; font-size: 8px; font-weight: bold;">
-            <span style="color: #4CAF50;">CROSS</span>
-            <span style="color: #ffaa00;">→</span>
-            <span style="color: #2196F3;">F2L</span>
-            <span style="color: #ffaa00;">→</span>
-            <span style="color: #ff4444;">OLL</span>
-            <span style="color: #ffaa00;">→</span>
-            <span style="color: #ffdd00;">PLL</span>
-        </div>
-    </div>
-
     <!-- Панель управления -->
     <div class="control-panel">
-        <!-- Индикация текущей ориентации -->
+        <!-- Верхняя строка с ориентацией -->
         <div class="orientation-bar">
             <div class="orientation-item">
                 <span class="orientation-label">ПЕРЕД:</span>
@@ -365,10 +689,15 @@
                 <div class="side-btn white active" id="btnU" title="Белая (U)"></div>
                 <div class="side-btn yellow" id="btnD" title="Желтая (D)"></div>
             </div>
-            <!-- Крестовина для поворота всего куба -->
+            <!-- Крестовина -->
             <div class="control-cross-compact">
                 <button class="cross-btn up" id="rotateUp" title="Повернуть вверх">↑</button>
                 <button class="cross-btn left" id="rotateLeft" title="Повернуть влево">←</button>
+                <div id="youtubeButtonContainer" style="grid-column: 2; grid-row: 2; width: 100%; height: 100%;">
+                    <button class="cross-btn center" id="youtubeBtn" title="YouTube канал Павла Волкова">
+                        You
+                    </button>
+                </div>
                 <button class="cross-btn down" id="rotateDown" title="Повернуть вниз">↓</button>
                 <button class="cross-btn right" id="rotateRight" title="Повернуть вправо">→</button>
             </div>
@@ -879,6 +1208,13 @@
             this._tmpFaces = {};
             this._rotation = null;
             this._update();
+
+            // Сигнализируем, что нужно обновить логотип
+            if (this._cube && this._cube._addLogoToWhiteCenter) {
+                setTimeout(() => {
+                    this._cube._addLogoToWhiteCenter();
+                }, 50);
+            }
         }
 
         // Преобразование типа грани при повороте
@@ -956,11 +1292,93 @@
 
             // Обновление позиции
             this._update();
+            // Обновление позиции
+            this._update();
 
+            // 🔴 
+            //setTimeout(() => this._addLogoToWhiteCenter(), 300);
+
+            // Добавление красного логотипа на белую грань (только центр)
+Rubik.prototype._addLogoToWhiteCenter = function () {
+    // Удаляем старый логотип, если есть
+    const oldLogo = document.querySelector('.rubik-logo');
+    if (oldLogo) oldLogo.remove();
+
+    // Ищем центральный кубик с белой гранью
+    for (let i = 0; i < this._cubes.length; i++) {
+        const cube = this._cubes[i];
+        const faces = cube.getFaces();
+        
+        // Центральный кубик имеет только ОДНУ грань
+        if (Object.keys(faces).length === 1) {
+            for (let type in faces) {
+                const face = faces[type];
+                // Если цвет грани белый - это наш центральный кубик
+                if (face.getColor() === 'white') {
+                    const faceNode = face.getNode();
+                    
+                    // Создаем контейнер для логотипа
+                    const logoContainer = document.createElement('div');
+                    logoContainer.className = 'rubik-logo';
+                    logoContainer.style.cssText = `
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: transparent;
+                        pointer-events: none;
+                        z-index: 10;
+                    `;
+
+                    // Вставляем SVG логотип (КРАСНЫЙ цвет)
+                    const svgString = `
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1172" width="70%" height="70%">
+                            <g transform="translate(0,1172) scale(0.1,-0.1)" fill="#FF0000">
+                                <path d="M5105 11713 c-722 -29 -1476 -152 -2180 -354 -246 -72 -703 -227
+                                -670 -228 6 -1 55 6 109 14 277 42 703 86 1076 111 303 21 1037 24 1315 6
+                                1415 -94 2552 -440 3506 -1067 469 -309 908 -716 1242 -1150 926 -1206 1255
+                                -2794 886 -4283 -103 -416 -275 -845 -484 -1207 -68 -118 -254 -395 -265 -395
+                                -4 0 -182 183 -396 407 -1927 2023 -3438 3546 -4089 4121 l-59 52 279 283
+                                c154 155 503 506 775 779 l495 498 -40 38 c-22 22 -119 112 -215 202 -96 90
+                                -193 181 -215 202 l-40 37 -1002 71 c-551 38 -1009 70 -1017 70 -14 0 -2894
+                                -2682 -2912 -2711 -4 -7 57 -74 162 -178 93 -91 458 -453 810 -803 353 -351
+                                647 -638 653 -638 6 0 322 290 703 645 380 355 694 644 697 643 18 -8 4342
+                                -4528 4415 -4615 l24 -29 -111 -66 c-466 -277 -981 -447 -1552 -510 -183 -20
+                                -760 -17 -945 5 -904 108 -1807 429 -2768 984 -92 53 -383 231 -391 239 -2 2
+                                31 54 73 116 l76 113 -207 202 c-115 112 -228 221 -254 242 l-45 40 -108 -65
+                                -107 -65 -87 78 c-48 42 -133 123 -190 179 l-102 101 -290 -240 c-160 -132
+                                -290 -243 -290 -248 0 -11 84 -107 229 -264 61 -66 110 -123 109 -126 -2 -3
+                                -118 -104 -258 -224 -705 -604 -1197 -1065 -1308 -1228 -62 -90 -104 -178
+                                -126 -264 -24 -90 -21 -269 4 -363 82 -299 353 -566 651 -642 66 -16 103 -19
+                                193 -16 187 7 278 52 450 223 158 157 348 412 732 982 103 153 252 374 332
+                                491 l144 213 166 -163 c984 -963 2123 -1492 3487 -1620 221 -21 892 -17 1075
+                                5 815 101 1555 364 2231 794 68 44 129 82 136 86 10 6 212 -204 978 -1017 150
+                                -160 184 -183 278 -193 163 -16 413 105 602 292 224 219 315 457 236 612 -22
+                                45 -156 192 -728 806 l-362 389 63 72 c81 93 234 286 317 401 578 796 872
+                                1567 965 2530 22 233 22 698 0 945 -124 1368 -692 2616 -1667 3667 -636 684
+                                -1377 1188 -2249 1528 -863 336 -1914 500 -2945 458z"/>
+                            </g>
+                        </svg>
+                    `;
+
+                    logoContainer.innerHTML = svgString;
+                    faceNode.appendChild(logoContainer);
+                    console.log('Красный логотип добавлен на центральную белую грань!');
+                    return; // Выходим после нахождения
+                }
+            }
+        }
+    }
+}
             // Инициализация центров после сборки
             setTimeout(() => {
                 this._initCenterTracking();
                 this._updateOrientationFromCenters();
+                this._addLogoToWhiteCenter();  // Добавляем логотип при инициализации
             }, 100);
 
             // Обработчики drag
@@ -1162,6 +1580,7 @@
                     this._setButtonsEnabled(true);
                     this._updateCenterPositions();
                     this._updateOrientationFromCenters();
+                    this._addLogoToWhiteCenter();
                 }
             };
 
@@ -1194,6 +1613,7 @@
                     this._setButtonsEnabled(true);
                     this._updateCenterPositions();
                     this._updateOrientationFromCenters();
+                    this._addLogoToWhiteCenter();
                 }
             };
 
@@ -1226,6 +1646,7 @@
                     this._setButtonsEnabled(true);
                     this._updateCenterPositions();
                     this._updateOrientationFromCenters();
+                    this._addLogoToWhiteCenter();
                 }
             };
 
@@ -1258,6 +1679,7 @@
                     this._setButtonsEnabled(true);
                     this._updateCenterPositions();
                     this._updateOrientationFromCenters();
+                    this._addLogoToWhiteCenter();
                 }
             };
 
@@ -1303,7 +1725,7 @@
                 return;
             }
 
-            const targetAngles = { x: -20, y: -30, z: 0 };
+            const targetAngles = { x: -20, y: -120, z: 0 };
             this._smoothRotateTo(targetAngles, () => {
                 this._updateCenterPositions();
                 this._updateOrientationFromCenters();
@@ -1338,6 +1760,7 @@
                 } else {
                     this._isAnimating = false;
                     this._setButtonsEnabled(true);
+                    this._addLogoToWhiteCenter();
                     if (callback) callback();
                 }
             };
@@ -1377,6 +1800,27 @@
                 cubes.push(this._cubes[offset + i]);
             }
             this._rotateCubes(cubes, [0, 0, dir]);
+        }
+
+        // Поворот M-слоя (средний слой между L и R)
+        Rubik.prototype._rotateM = function (dir, layer) {
+            // layer: 0 - нижний слой M? но для M слой всегда один (индекс 1)
+            // В кубике 3x3 M слой - это кубики с x = 1 (индекс 1)
+
+            const cubes = [];
+            // Собираем все кубики, у которых x = 1 (средний столбец)
+            for (let y = 0; y < Rubik.SIZE; y++) {
+                for (let z = 0; z < Rubik.SIZE; z++) {
+                    // Индекс: x + y*SIZE + z*SIZE*SIZE
+                    // x всегда 1 (средний слой)
+                    cubes.push(this._cubes[1 + y * Rubik.SIZE + z * Rubik.SIZE * Rubik.SIZE]);
+                }
+            }
+
+            // Поворачиваем слой
+            // dir = 1 для M (как L), dir = -1 для M' (как L')
+            // Поворот вокруг оси Y, но с направлением как у L
+            this._rotateCubes(cubes, [0, dir, 0]);
         }
 
         // Поворот группы кубиков с анимацией
@@ -1429,6 +1873,9 @@
             }
 
             setTimeout(() => {
+                // ВАЖНО: добавляем логотип после каждого поворота
+                this._addLogoToWhiteCenter();
+
                 this.dispatch("rotated");
                 this._processingQueue = false;
                 this._currentMoveIndex++;
@@ -1575,10 +2022,13 @@
 
                 case 'SHUFFLE': moves = this._generateShuffle(15); break;  //15 случайных ходов перемешивания
                 case 'ALGO_RURU': moves = ['R', 'U', "R'", "U'"]; break;
+                case 'ALGO_RFRF': moves = ['R', "F'", "R'", 'F']; break;
+                case 'ALGO_FRFR': moves = ["F'", 'R', 'F', "R'"]; break;
                 case 'ALGO_1': moves = ['U', 'R', "U'", "R'"]; break;
                 case 'ALGO_6': moves = ["R'", 'D', 'R', "D'"]; break;
                 case 'ALGO_RD2RU': moves = ["R'", 'D2', 'R', 'U']; break;
-                case 'ALGO_2': moves = ['U', 'R', "U'", "R'", "U'", "F'", 'U', 'F']; break;
+                case 'ALGO_OLL45': moves = ['F', 'R', 'U', "R'", "U'", "F'"]; break;
+                case 'ALGO_ANTISUNE': moves = ['R', 'U2', "R'", "U'", 'R', "U'", "R'"]; break;
                 case 'ALGO_3': moves = ['F', 'R', 'U', "R'", "U'", "F'"]; break;
                 case 'ALGO_4': moves = ['R', 'U', "R'", 'U', 'R', 'U2', "R'"]; break;
                 case 'ALGO_5': moves = ['U', 'R', "U'", "L'", 'U', "R'", "U'", 'L']; break;
@@ -1963,6 +2413,102 @@
 
         // ==================== ИНИЦИАЛИЗАЦИЯ ПРИЛОЖЕНИЯ ====================
         document.addEventListener('DOMContentLoaded', function () {
+            (function protectYouTubeLink() {
+                const YT_CONFIG = {
+                    url: 'aHR0cHM6Ly93d3cueW91dHViZS5jb20v',
+                    channel: 'QFBhdmVsX1ZvbGtvdg==',
+                    checkInterval: 1000,
+                    backupUrls: [
+                        'aHR0cHM6Ly95b3V0dS5iZS9QYXZlbFZvbGtvdg==',
+                        'aHR0cHM6Ly93d3cueW91dHViZS5jb20vQFBhdmVsX1ZvbGtvdg=='
+                    ]
+                };
+
+                let protectionActive = true;
+                let currentUrlIndex = 0;
+
+                function getYouTubeUrl() {
+                    return atob(YT_CONFIG.url) + atob(YT_CONFIG.channel);
+                }
+
+                function restoreYouTubeButton() {
+                    const container = document.getElementById('youtubeButtonContainer');
+                    const oldBtn = document.getElementById('youtubeBtn');
+
+                    if (!container) return;
+
+                    if (oldBtn && oldBtn.parentElement && oldBtn.parentElement.tagName !== 'A') {
+                        const newBtn = oldBtn.cloneNode(true);
+                        newBtn.id = 'youtubeBtn';
+                        container.innerHTML = '';
+
+                        const link = document.createElement('a');
+                        link.href = getYouTubeUrl();
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.style.cssText = 'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none;';
+
+                        link.appendChild(newBtn);
+                        container.appendChild(link);
+                    }
+
+                    if (!document.getElementById('youtubeBtn')) {
+                        const newBtn = document.createElement('button');
+                        newBtn.className = 'cross-btn center';
+                        newBtn.id = 'youtubeBtn';
+                        newBtn.title = 'YouTube канал Павла Волкова';
+                        newBtn.textContent = 'You';
+
+                        container.innerHTML = '';
+                        const link = document.createElement('a');
+                        link.href = getYouTubeUrl();
+                        link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
+                        link.style.cssText = 'display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; text-decoration: none;';
+
+                        link.appendChild(newBtn);
+                        container.appendChild(link);
+                    }
+                }
+
+                function startProtection() {
+                    setTimeout(restoreYouTubeButton, 100);
+
+                    setInterval(function () {
+                        if (!protectionActive) return;
+
+                        const btn = document.getElementById('youtubeBtn');
+                        const container = document.getElementById('youtubeButtonContainer');
+
+                        if (!btn || !container || !btn.parentElement || btn.parentElement.tagName !== 'A') {
+                            restoreYouTubeButton();
+                            currentUrlIndex = (currentUrlIndex + 1) % YT_CONFIG.backupUrls.length;
+                        }
+                    }, YT_CONFIG.checkInterval);
+
+                    try {
+                        const originalGetElementById = document.getElementById;
+                        document.getElementById = function (id) {
+                            if (id === 'youtubeBtn') {
+                                const element = originalGetElementById.call(this, id);
+                                if (!element) {
+                                    setTimeout(restoreYouTubeButton, 10);
+                                }
+                                return element;
+                            }
+                            return originalGetElementById.call(this, id);
+                        };
+                    } catch (e) {
+                        console.log('Protection active');
+                    }
+                }
+
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', startProtection);
+                } else {
+                    startProtection();
+                }
+            })();
             // Создаем экземпляр Rubik
             window.rubikInstance = new Rubik();
 
@@ -1973,15 +2519,35 @@
              * СОЗДАНИЕ КНОПОК АЛГОРИТМОВ
              */
 
-            // Строка 1
+            // Строка 1: стрелка влево + urur + rdrd + центр + rd2ru + ruru + стрелка вправо
             const row1 = document.createElement('div');
             row1.style.display = 'flex';
             row1.style.justifyContent = 'center';
-            row1.style.gap = '5px';
+            row1.style.alignItems = 'center'; // выравнивание по центру по вертикали
+            row1.style.gap = '4px';
             row1.style.width = '100%';
-            row1.style.marginBottom = '5px';
+            row1.style.marginBottom = '3px';
+            row1.style.flexWrap = 'wrap';
 
-            // Кнопка U R U' R'
+            // СТРЕЛКА ВЛЕВО (круговой поворот влево)
+            const btnLeftArrow = document.createElement('button');
+            btnLeftArrow.className = 'btn-arrow';
+            btnLeftArrow.innerHTML = '⬅️'; // или можно использовать эмодзи стрелки
+            btnLeftArrow.title = 'Повернуть куб влево (Y)';
+            btnLeftArrow.style.background = '#4a4a4a';
+            btnLeftArrow.style.borderRadius = '50%'; // делаем круглой
+            btnLeftArrow.style.width = '32px';
+            btnLeftArrow.style.height = '32px';
+            btnLeftArrow.style.padding = '0';
+            btnLeftArrow.style.fontSize = '18px';
+            btnLeftArrow.style.display = 'flex';
+            btnLeftArrow.style.alignItems = 'center';
+            btnLeftArrow.style.justifyContent = 'center';
+            btnLeftArrow.onclick = () => window.rubikInstance.rotateRight();
+            row1.appendChild(btnLeftArrow);
+            buttons.push(btnLeftArrow);
+
+            // U R U' R'
             const btn1 = document.createElement('button');
             btn1.className = 'btn-1';
             btn1.textContent = 'U R U\' R\'';
@@ -1990,16 +2556,16 @@
             row1.appendChild(btn1);
             buttons.push(btn1);
 
-            // Кнопка R U R' U'
-            const btnRURU = document.createElement('button');
-            btnRURU.className = 'btn-8';
-            btnRURU.textContent = 'R U R\' U\'';
-            btnRURU.title = 'Пиф-паф (R U R\' U\')';
-            btnRURU.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RURU');
-            row1.appendChild(btnRURU);
-            buttons.push(btnRURU);
+            // R' D R D'
+            const btnBottom = document.createElement('button');
+            btnBottom.className = 'btn-1';
+            btnBottom.textContent = 'R\' D R D\'';
+            btnBottom.title = 'Нижний пиф-паф кручение верхнего правого угла';
+            btnBottom.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_6');
+            row1.appendChild(btnBottom);
+            buttons.push(btnBottom);
 
-            // Кнопка ЦЕНТР
+            // ЦЕНТР
             const btnCenter = document.createElement('button');
             btnCenter.className = 'btn-6';
             btnCenter.textContent = 'ЦЕНТР';
@@ -2011,104 +2577,151 @@
             row1.appendChild(btnCenter);
             buttons.push(btnCenter);
 
-            // Кнопка R' D R D'
-            const btnBottom = document.createElement('button');
-            btnBottom.className = 'btn-1';
-            btnBottom.textContent = 'R\' D R D\'';
-            btnBottom.title = 'Нижний пиф-паф';
-            btnBottom.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_6');
-            row1.appendChild(btnBottom);
-            buttons.push(btnBottom);
-
-            // Кнопка R' D2 R U
+            // R' D2 R U
             const btnNew = document.createElement('button');
             btnNew.className = 'btn-3';
             btnNew.textContent = 'R\' D2 R U';
-            btnNew.title = 'Алгоритм R\' D2 R U';
+            btnNew.title = 'Перемещение ребра (R\' D2 R U)';
             btnNew.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RD2RU');
             row1.appendChild(btnNew);
             buttons.push(btnNew);
 
+            // R U R' U'
+            const btnRURU = document.createElement('button');
+            btnRURU.className = 'btn-8';
+            btnRURU.textContent = 'R U R\' U\'';
+            btnRURU.title = 'Пиф-паф (R U R\' U\')';
+            btnRURU.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RURU');
+            row1.appendChild(btnRURU);
+            buttons.push(btnRURU);
+
+            // СТРЕЛКА ВПРАВО (круговой поворот вправо)
+            const btnRightArrow = document.createElement('button');
+            btnRightArrow.className = 'btn-arrow';
+            btnRightArrow.innerHTML = '➡️'; // или можно использовать эмодзи стрелки
+            btnRightArrow.title = 'Повернуть куб вправо (Y\')';
+            btnRightArrow.style.background = '#4a4a4a';
+            btnRightArrow.style.borderRadius = '50%'; // делаем круглой
+            btnRightArrow.style.width = '32px';
+            btnRightArrow.style.height = '32px';
+            btnRightArrow.style.padding = '0';
+            btnRightArrow.style.fontSize = '18px';
+            btnRightArrow.style.display = 'flex';
+            btnRightArrow.style.alignItems = 'center';
+            btnRightArrow.style.justifyContent = 'center';
+            btnRightArrow.onclick = () => window.rubikInstance.rotateLeft();
+            row1.appendChild(btnRightArrow);
+            buttons.push(btnRightArrow);
+
             algoButtonsContainer.appendChild(row1);
 
-            // Строка 2
+            // Строка 2: стрелка вверх + rfrf + f2ll + перемешать + f2lr + frfr + стрелка вниз
             const row2 = document.createElement('div');
             row2.style.display = 'flex';
             row2.style.justifyContent = 'center';
-            row2.style.gap = '5px';
+            row2.style.alignItems = 'center';
+            row2.style.gap = '4px';
             row2.style.width = '100%';
-            row2.style.marginBottom = '5px';
+            row2.style.marginBottom = '3px';
+            row2.style.flexWrap = 'wrap';
 
-            // Кнопка U R U' R' U' F' U F
-            const btn2 = document.createElement('button');
-            btn2.className = 'btn-2';
-            btn2.textContent = 'U R U\' R\' U\' F\' U F';
-            btn2.title = 'Вставка ребра';
-            btn2.style.fontSize = '9px';
-            btn2.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_2');
-            row2.appendChild(btn2);
-            buttons.push(btn2);
+            // СТРЕЛКА ВВЕРХ (поворот куба вверх)
+            const btnUpArrow = document.createElement('button');
+            btnUpArrow.className = 'btn-arrow';
+            btnUpArrow.innerHTML = '↑';
+            btnUpArrow.title = 'Повернуть куб вверх';
+            btnUpArrow.onclick = () => window.rubikInstance.rotateDown(); // rotateDown = поворот вверх
+            row2.appendChild(btnUpArrow);
+            buttons.push(btnUpArrow);
 
-            // Кнопка F2L L
+            // R F' R' F
+            const btnRFRF = document.createElement('button');
+            btnRFRF.className = 'btn-3';
+            btnRFRF.textContent = 'R F\' R\' F';
+            btnRFRF.title = 'Пиф-паф для ориентации углов (R F\' R\' F)';
+            btnRFRF.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_RFRF');
+            row2.appendChild(btnRFRF);
+            buttons.push(btnRFRF);
+
+            // F2L L
             const btnF2LL = document.createElement('button');
             btnF2LL.className = 'btn-9';
             btnF2LL.textContent = 'F2L L';
-            btnF2LL.title = 'Вставка пары слева';
+            btnF2LL.title = 'Вставка пары слева (U\'L\'U L F\'L F L\')';
             btnF2LL.onclick = () => window.rubikInstance.executeAlgorithm('F2L_LEFT');
             row2.appendChild(btnF2LL);
             buttons.push(btnF2LL);
 
-            // Кнопка ПЕРЕМЕШАТЬ (серая)
+            // ПЕРЕМЕШАТЬ
             const btnShuffle = document.createElement('button');
-            btnShuffle.className = 'btn-1'; // базовый класс для отступов и рамки
+            btnShuffle.className = 'btn-1';
             btnShuffle.textContent = 'ПЕРЕМЕШАТЬ';
             btnShuffle.title = 'Случайная скрамбл-последовательность';
-            btnShuffle.style.background = '#9e9e9e';  // белый фон
-            btnShuffle.style.color = '#333333';       // темный текст
-            btnShuffle.style.textShadow = 'none';     // убираем тень
+            btnShuffle.style.background = '#9e9e9e';
+            btnShuffle.style.color = '#333333';
+            btnShuffle.style.textShadow = 'none';
             btnShuffle.onclick = () => window.rubikInstance.executeAlgorithm('SHUFFLE');
             row2.appendChild(btnShuffle);
             buttons.push(btnShuffle);
 
-            // Кнопка F2L R
+            // F2L R
             const btnF2LR = document.createElement('button');
             btnF2LR.className = 'btn-8';
             btnF2LR.textContent = 'F2L R';
-            btnF2LR.title = 'Вставка пары справа';
+            btnF2LR.title = 'Вставка пары справа (U R U\' R\'F R\'F\'R\)';
             btnF2LR.onclick = () => window.rubikInstance.executeAlgorithm('F2L_RIGHT');
             row2.appendChild(btnF2LR);
             buttons.push(btnF2LR);
 
-            // Кнопка F R U R' U' F'
-            const btn3 = document.createElement('button');
-            btn3.className = 'btn-3';
-            btn3.textContent = 'F R U R\' U\' F\'';
-            btn3.title = 'Крест OLL';
-            btn3.style.fontSize = '9px';
-            btn3.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_3');
-            row2.appendChild(btn3);
-            buttons.push(btn3);
+            // F' R F R'
+            const btnFRFR = document.createElement('button');
+            btnFRFR.className = 'btn-2';
+            btnFRFR.textContent = 'F\' R F R\'';
+            btnFRFR.title = 'Зеркальный пиф-паф (F\' R F R\')';
+            btnFRFR.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_FRFR');
+            row2.appendChild(btnFRFR);
+            buttons.push(btnFRFR);
+
+            // СТРЕЛКА ВНИЗ (поворот куба вниз)
+            const btnDownArrow = document.createElement('button');
+            btnDownArrow.className = 'btn-arrow';
+            btnDownArrow.innerHTML = '↓';
+            btnDownArrow.title = 'Повернуть куб вниз';
+            btnDownArrow.onclick = () => window.rubikInstance.rotateUp(); // rotateUp = поворот вниз
+            row2.appendChild(btnDownArrow);
+            buttons.push(btnDownArrow);
 
             algoButtonsContainer.appendChild(row2);
 
-            // Строка 3
+            // Строка 3: ururufuf_frurufc_сброс_rururu2r_urulurul
             const row3 = document.createElement('div');
             row3.style.display = 'flex';
             row3.style.justifyContent = 'center';
-            row3.style.gap = '5px';
+            row3.style.gap = '4px';
             row3.style.width = '100%';
+            row3.style.flexWrap = 'wrap';
 
-            // Кнопка R U R' U R U2 R'
-            const btn4 = document.createElement('button');
-            btn4.className = 'btn-4';
-            btn4.textContent = 'R U R\' U R U2 R\'';
-            btn4.title = 'Sune OLL';
-            btn4.style.fontSize = '9px';
-            btn4.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_4');
-            row3.appendChild(btn4);
-            buttons.push(btn4);
+            // OLL 45: F R U R' U' F' (Ориентация ребер)
+            const btn2 = document.createElement('button');
+            btn2.className = 'btn-2'; // Можно оставить тот же цвет
+            btn2.textContent = 'F R U R\' U\' F\''; // <-- Новый текст
+            btn2.title = 'OLL 45 - Ориентация ребер (F R U R\' U\' F\')';
+            btn2.style.fontSize = '9px';
+            btn2.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_OLL45'); // <-- Новый вызов
+            row3.appendChild(btn2);
+            buttons.push(btn2);
 
-            // Кнопка СБРОС
+            // Anti-Sune: R U2 R' U' R U' R'
+            const btn3 = document.createElement('button');
+            btn3.className = 'btn-3'; // Можно сменить цвет, например, на 'btn-4' для желтого
+            btn3.textContent = 'R U2 R\' U\' R U\' R\'';
+            btn3.title = 'Anti-Sune OLL - Ориентация углов';
+            btn3.style.fontSize = '9px';
+            btn3.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_ANTISUNE');
+            row3.appendChild(btn3);
+            buttons.push(btn3);
+
+            // СБРОС
             const btnReset = document.createElement('button');
             btnReset.className = 'btn-7';
             btnReset.textContent = 'СБРОС';
@@ -2120,11 +2733,21 @@
             row3.appendChild(btnReset);
             buttons.push(btnReset);
 
-            // Кнопка U R U' L' U R' U' L
+            // R U R' U R U2 R'
+            const btn4 = document.createElement('button');
+            btn4.className = 'btn-4';
+            btn4.textContent = 'R U R\' U R U2 R\'';
+            btn4.title = 'Sune OLL';
+            btn4.style.fontSize = '9px';
+            btn4.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_4');
+            row3.appendChild(btn4);
+            buttons.push(btn4);
+
+            // U R U' L' U R' U' L
             const btn5 = document.createElement('button');
             btn5.className = 'btn-5';
             btn5.textContent = 'U R U\' L\' U R\' U\' L';
-            btn5.title = 'Перестановка углов';
+            btn5.title = 'Перестановка углов "трЁх"';
             btn5.style.fontSize = '9px';
             btn5.onclick = () => window.rubikInstance.executeAlgorithm('ALGO_5');
             row3.appendChild(btn5);
@@ -2138,6 +2761,18 @@
             // Устанавливаем начальные значения ориентации
             document.getElementById('currentFrontCompact').textContent = 'Зеленая (F)';
             document.getElementById('currentTopCompact').textContent = 'Белая (U)';
+        });
+
+        // Добавляем обработчик изменения ориентации экрана
+        window.addEventListener('orientationchange', function () {
+            // Небольшая задержка для применения новых размеров
+            setTimeout(() => {
+                // Пересчет позиции куба при необходимости
+                if (window.rubikInstance) {
+                    window.rubikInstance._updateCenterPositions();
+                    window.rubikInstance._updateOrientationFromCenters();
+                }
+            }, 100);
         });
     </script>
 </body>
